@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <declare-styleable name="Indicator">
+        <!-- Text to be shown when view is collapsed. -->
+        <attr name="expandIndicatorText" format="string" />
+        <!-- Text to be shown when view is expanded. -->
+        <attr name="collapseIndicatorText" format="string" />
+        <!-- Drawable to show when view is collapsed -->
+        <attr name="expandIndicator" format="reference" />
+        <!-- Drawable to show when view is expanded -->
+        <attr name="collapseIndicator" format="reference" />
+    </declare-styleable>
+
+</resources>

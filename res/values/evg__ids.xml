@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <item name="evg__separator" type="id"/>
+    <item name="evg__view_group" type="id"/>
+    <item name="evg__indicator" type="id"/>
+    <item name="evg__indicator_image" type="id"/>
+    <item name="evg__indicator_text" type="id"/>
+
+</resources>
