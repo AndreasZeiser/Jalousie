@@ -1,6 +1,24 @@
+/*
+ * Copyright (C) 2012 Andreas Zeiser
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package com.andreaszeiser.jalousie;
 
 import android.content.Context;
+import android.os.Bundle;
+import android.os.Parcelable;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.View;
@@ -13,16 +31,15 @@ import com.nineoldandroids.animation.Animator;
 import com.nineoldandroids.animation.AnimatorListenerAdapter;
 import com.nineoldandroids.animation.ObjectAnimator;
 
+/**
+ * Based on the class LinearLayout, this class provides the functionality to
+ * expand or collapse the size of this view, so that more or less content is
+ * visible.
+ * 
+ * @author Andreas Zeiser
+ * 
+ */
 public class LinearLayoutJalousie extends LinearLayout implements Jalousie {
-
-	@Override
-	protected void onSizeChanged(int w, int h, int oldw, int oldh) {
-
-		Log.v(TAG, "[onSizeChanged] w=" + w + ", h=" + h + ", oldw=" + oldw
-				+ ", oldh=" + oldh);
-
-		super.onSizeChanged(w, h, oldw, oldh);
-	}
 
 	/**
 	 * Set this variable to true, if you want to receive debug information.
@@ -159,9 +176,15 @@ public class LinearLayoutJalousie extends LinearLayout implements Jalousie {
 	 */
 	private int mAnimationDuration = DEFAULT_ANIMATION_DURATION;
 
-	// TODO to be documented
+	/**
+	 * Contains a reference to the interpolator which will be used during
+	 * animation.
+	 */
 	private Interpolator mInterpolator = new AccelerateDecelerateInterpolator();
 
+	/**
+	 * Reference to the event listener for this class.
+	 */
 	private JalousieListener mExpandableViewGroupListener;
 
 	public LinearLayoutJalousie(Context context, AttributeSet attrs) {
@@ -302,6 +325,8 @@ public class LinearLayoutJalousie extends LinearLayout implements Jalousie {
 			mVisibleContentSizeWasMeasured = true;
 		}
 
+		Log.v(TAG, "[onMeasure] mIsExpanded=" + mIsExpanded);
+
 		if (!mIsAnimating && !mIsExpanded) {
 			if (DEBUG) {
 				Log.v(TAG, "[onMeasure] set self measured dimension");
@@ -324,6 +349,43 @@ public class LinearLayoutJalousie extends LinearLayout implements Jalousie {
 			Log.v(TAG, "[onMeasure] measured width=" + getMeasuredWidth());
 			Log.v(TAG, "[onMeasure] measured height=" + getMeasuredHeight());
 		}
+	}
+
+	@Override
+	protected Parcelable onSaveInstanceState() {
+
+		Log.v(TAG, "[onSaveInstanceState]");
+
+		Bundle bundle = new Bundle();
+
+		bundle.putParcelable("instanceState", super.onSaveInstanceState());
+		bundle.putBoolean("isExpanded", mIsExpanded);
+
+		Log.v(TAG, "[onSaveInstanceState] mIsExpanded=" + mIsExpanded);
+		Log.v(TAG, "[onSaveInstanceState] bundle=" + bundle);
+
+		return bundle;
+	}
+
+	@Override
+	protected void onRestoreInstanceState(Parcelable state) {
+
+		Log.v(TAG, "[onRestoreInstanceState] state=" + state);
+
+		if (state instanceof Bundle) {
+			Bundle bundle = (Bundle) state;
+
+			mIsExpanded = bundle.getBoolean("isExpanded");
+			Log.v(TAG, "[onRestoreInstanceState] mIsExpanded=" + mIsExpanded);
+
+			super.onRestoreInstanceState(bundle.getParcelable("instanceState"));
+
+			Log.v(TAG, "[onRestoreInstanceState] mIsExpanded=" + mIsExpanded);
+
+			return;
+		}
+
+		super.onRestoreInstanceState(state);
 	}
 
 	@Override
