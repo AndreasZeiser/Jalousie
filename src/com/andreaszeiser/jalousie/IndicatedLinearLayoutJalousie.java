@@ -27,7 +27,7 @@ public class IndicatedLinearLayoutJalousie extends LinearLayout {
 
 	private LinearLayoutJalousie mExpandableLinearLayout;
 
-	private BasicIndicator mIndicator;
+	private IndicatorElement mIndicator;
 
 	public IndicatedLinearLayoutJalousie(Context context, AttributeSet attrs) {
 
@@ -74,8 +74,8 @@ public class IndicatedLinearLayoutJalousie extends LinearLayout {
 				mExpandableLinearLayout = (LinearLayoutJalousie) view;
 				mExpandableLinearLayout
 						.setExpandableViewGroupListener(mExpandableViewGroupListener);
-			} else if (view instanceof BasicIndicator) {
-				mIndicator = (BasicIndicator) view;
+			} else if (view instanceof IndicatorElement) {
+				mIndicator = (IndicatorElement) view;
 			}
 		}
 	}
@@ -105,7 +105,7 @@ public class IndicatedLinearLayoutJalousie extends LinearLayout {
 	private JalousieListener mExpandableViewGroupListener = new JalousieListener() {
 
 		@Override
-		public void onActionStart(int action) {
+		public void onActionStart(final int action, final int animationDuration) {
 		}
 
 		@Override
@@ -131,7 +131,7 @@ public class IndicatedLinearLayoutJalousie extends LinearLayout {
 		return mExpandableLinearLayout;
 	}
 
-	public BasicIndicator getIndicator() {
+	public IndicatorElement getIndicator() {
 		return mIndicator;
 	}
 }

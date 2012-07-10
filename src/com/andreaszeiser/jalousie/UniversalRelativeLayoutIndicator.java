@@ -32,7 +32,7 @@ import android.widget.RelativeLayout;
  * @author Andreas Zeiser
  * 
  */
-public class UniversalIndicator extends RelativeLayout implements
+public class UniversalRelativeLayoutIndicator extends RelativeLayout implements
 		IndicatorElement {
 
 	/**
@@ -43,19 +43,31 @@ public class UniversalIndicator extends RelativeLayout implements
 
 	private ArrayList<IndicatorElement> mIndicatorElements = new ArrayList<IndicatorElement>();
 
-	public UniversalIndicator(Context context, AttributeSet attrs, int defStyle) {
+	public UniversalRelativeLayoutIndicator(Context context,
+			AttributeSet attrs, int defStyle) {
 
 		super(context, attrs, defStyle);
+
+		init();
 	}
 
-	public UniversalIndicator(Context context, AttributeSet attrs) {
+	public UniversalRelativeLayoutIndicator(Context context, AttributeSet attrs) {
 
 		super(context, attrs);
+
+		init();
 	}
 
-	public UniversalIndicator(Context context) {
+	public UniversalRelativeLayoutIndicator(Context context) {
 
 		super(context);
+
+		init();
+	}
+
+	private void init() {
+
+		setClickable(true);
 	}
 
 	@Override

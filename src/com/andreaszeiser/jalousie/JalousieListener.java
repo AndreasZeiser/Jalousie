@@ -44,8 +44,11 @@ public interface JalousieListener {
 	 * 
 	 * @param action
 	 *            either {@link #ACTION_EXPAND} or {@link #ACTION_COLLAPSE}
+	 * @param animationDuration
+	 *            duration of animation from the time of the call of
+	 *            {@link #onActionStart(int, int)} til {@link #onActionEnd(int)}
 	 */
-	public void onActionStart(final int action);
+	public void onActionStart(final int action, final int animationDuration);
 
 	/**
 	 * If jalousie executed an expand or a collapse command, this method will be

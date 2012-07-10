@@ -532,9 +532,12 @@ public class LinearLayoutJalousie extends LinearLayout implements Jalousie {
 			mCurrentAnimator.cancel();
 		}
 
+		// configure animation duration
+		final int animationDuration = animated ? mAnimationDuration : 0;
+
 		mCurrentAnimator = ObjectAnimator.ofInt(this, propertyName, from,
 				mOriginalSize);
-		mCurrentAnimator.setDuration(animated ? mAnimationDuration : 0);
+		mCurrentAnimator.setDuration(animationDuration);
 		mCurrentAnimator.setInterpolator(mInterpolator);
 		mCurrentAnimator.addListener(new AnimatorListenerAdapter() {
 
@@ -545,8 +548,8 @@ public class LinearLayoutJalousie extends LinearLayout implements Jalousie {
 				mAnimationType = ANIMATION_TYPE_EXPAND;
 
 				if (mExpandableViewGroupListener != null) {
-					mExpandableViewGroupListener
-							.onActionStart(JalousieListener.ACTION_EXPAND);
+					mExpandableViewGroupListener.onActionStart(
+							JalousieListener.ACTION_EXPAND, animationDuration);
 				}
 			}
 
@@ -637,9 +640,12 @@ public class LinearLayoutJalousie extends LinearLayout implements Jalousie {
 			mCurrentAnimator.cancel();
 		}
 
+		// configure animation duration
+		final int animationDuration = animated ? mAnimationDuration : 0;
+
 		mCurrentAnimator = ObjectAnimator.ofInt(this, propertyName,
 				mVisibleContentSize);
-		mCurrentAnimator.setDuration(animated ? mAnimationDuration : 0);
+		mCurrentAnimator.setDuration(animationDuration);
 		mCurrentAnimator.setInterpolator(mInterpolator);
 		mCurrentAnimator.addListener(new AnimatorListenerAdapter() {
 
@@ -651,7 +657,8 @@ public class LinearLayoutJalousie extends LinearLayout implements Jalousie {
 
 				if (mExpandableViewGroupListener != null) {
 					mExpandableViewGroupListener
-							.onActionStart(JalousieListener.ACTION_COLLAPSE);
+							.onActionStart(JalousieListener.ACTION_COLLAPSE,
+									animationDuration);
 				}
 			}
 
