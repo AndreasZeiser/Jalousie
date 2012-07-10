@@ -93,7 +93,7 @@ public class LinearLayoutJalousie extends LinearLayout implements Jalousie {
 	 * 
 	 * @see #mContentGravity
 	 */
-	private Separator mExpandableViewGroupSeparator;
+	private Separator mSeparator;
 
 	/**
 	 * During views's first measure in {@link #onMeasure(int, int)}, this
@@ -185,7 +185,7 @@ public class LinearLayoutJalousie extends LinearLayout implements Jalousie {
 	/**
 	 * Reference to the event listener for this class.
 	 */
-	private JalousieListener mExpandableViewGroupListener;
+	private JalousieListener mJalousieListener;
 
 	public LinearLayoutJalousie(Context context, AttributeSet attrs) {
 
@@ -227,7 +227,7 @@ public class LinearLayoutJalousie extends LinearLayout implements Jalousie {
 
 		super.onFinishInflate();
 
-		mExpandableViewGroupSeparator = (Separator) findViewById(R.id.evg__separator);
+		mSeparator = (Separator) findViewById(R.id.evg__separator);
 	}
 
 	/**
@@ -505,13 +505,13 @@ public class LinearLayoutJalousie extends LinearLayout implements Jalousie {
 			propertyName = PROPERTY_CURRENT_HEIGHT;
 		}
 
-		if (mExpandableViewGroupSeparator != null) {
+		if (mSeparator != null) {
 			if (mContentGravity == Jalousie.GRAVITY_HORIZONTAL) {
 				// everything on the left side of the separator is the 'visible' content
-				mVisibleContentSize = mExpandableViewGroupSeparator.getLeft();
+				mVisibleContentSize = mSeparator.getLeft();
 			} else {
 				// everything above the separator is the 'visible' content
-				mVisibleContentSize = mExpandableViewGroupSeparator.getTop();
+				mVisibleContentSize = mSeparator.getTop();
 			}
 		}
 
@@ -547,8 +547,8 @@ public class LinearLayoutJalousie extends LinearLayout implements Jalousie {
 				mIsAnimating = true;
 				mAnimationType = ANIMATION_TYPE_EXPAND;
 
-				if (mExpandableViewGroupListener != null) {
-					mExpandableViewGroupListener.onActionStart(
+				if (mJalousieListener != null) {
+					mJalousieListener.onActionStart(
 							JalousieListener.ACTION_EXPAND, animationDuration);
 				}
 			}
@@ -561,8 +561,8 @@ public class LinearLayoutJalousie extends LinearLayout implements Jalousie {
 				mAnimationType = 0;
 				mIsExpanded = true;
 
-				if (mExpandableViewGroupListener != null) {
-					mExpandableViewGroupListener
+				if (mJalousieListener != null) {
+					mJalousieListener
 							.onActionEnd(JalousieListener.ACTION_EXPAND);
 				}
 			}
@@ -626,13 +626,13 @@ public class LinearLayoutJalousie extends LinearLayout implements Jalousie {
 			propertyName = PROPERTY_CURRENT_HEIGHT;
 		}
 
-		if (mExpandableViewGroupSeparator != null) {
+		if (mSeparator != null) {
 			if (mContentGravity == Jalousie.GRAVITY_HORIZONTAL) {
 				// everything on the left side of the separator is the 'visible' content
-				mVisibleContentSize = mExpandableViewGroupSeparator.getLeft();
+				mVisibleContentSize = mSeparator.getLeft();
 			} else {
 				// everything above the separator is the 'visible' content
-				mVisibleContentSize = mExpandableViewGroupSeparator.getTop();
+				mVisibleContentSize = mSeparator.getTop();
 			}
 		}
 
@@ -655,8 +655,8 @@ public class LinearLayoutJalousie extends LinearLayout implements Jalousie {
 				mIsAnimating = true;
 				mAnimationType = ANIMATION_TYPE_COLLAPSE;
 
-				if (mExpandableViewGroupListener != null) {
-					mExpandableViewGroupListener
+				if (mJalousieListener != null) {
+					mJalousieListener
 							.onActionStart(JalousieListener.ACTION_COLLAPSE,
 									animationDuration);
 				}
@@ -670,8 +670,8 @@ public class LinearLayoutJalousie extends LinearLayout implements Jalousie {
 				mAnimationType = 0;
 				mIsExpanded = false;
 
-				if (mExpandableViewGroupListener != null) {
-					mExpandableViewGroupListener
+				if (mJalousieListener != null) {
+					mJalousieListener
 							.onActionEnd(JalousieListener.ACTION_COLLAPSE);
 				}
 			}
@@ -744,7 +744,7 @@ public class LinearLayoutJalousie extends LinearLayout implements Jalousie {
 	}
 
 	public void setExpandableViewGroupListener(final JalousieListener listener) {
-		mExpandableViewGroupListener = listener;
+		mJalousieListener = listener;
 	}
 
 }

@@ -25,7 +25,7 @@ public class IndicatedLinearLayoutJalousie extends LinearLayout {
 	 */
 	private int mContentGravity;
 
-	private LinearLayoutJalousie mExpandableLinearLayout;
+	private LinearLayoutJalousie mLinearLayoutJalousie;
 
 	private IndicatorElement mIndicator;
 
@@ -71,9 +71,9 @@ public class IndicatedLinearLayoutJalousie extends LinearLayout {
 			view = getChildAt(i);
 
 			if (view instanceof LinearLayoutJalousie) {
-				mExpandableLinearLayout = (LinearLayoutJalousie) view;
-				mExpandableLinearLayout
-						.setExpandableViewGroupListener(mExpandableViewGroupListener);
+				mLinearLayoutJalousie = (LinearLayoutJalousie) view;
+				mLinearLayoutJalousie
+						.setExpandableViewGroupListener(mJalousieListener);
 			} else if (view instanceof IndicatorElement) {
 				mIndicator = (IndicatorElement) view;
 			}
@@ -93,7 +93,7 @@ public class IndicatedLinearLayoutJalousie extends LinearLayout {
 	public boolean onInterceptTouchEvent(MotionEvent ev) {
 		switch (ev.getAction()) {
 		case MotionEvent.ACTION_UP:
-			mExpandableLinearLayout.toggle();
+			mLinearLayoutJalousie.toggle();
 			break;
 
 		default:
@@ -102,7 +102,7 @@ public class IndicatedLinearLayoutJalousie extends LinearLayout {
 		return super.onInterceptTouchEvent(ev);
 	}
 
-	private JalousieListener mExpandableViewGroupListener = new JalousieListener() {
+	private JalousieListener mJalousieListener = new JalousieListener() {
 
 		@Override
 		public void onActionStart(final int action, final int animationDuration) {
@@ -127,8 +127,8 @@ public class IndicatedLinearLayoutJalousie extends LinearLayout {
 		}
 	};
 
-	public LinearLayoutJalousie getExpandableLinearLayout() {
-		return mExpandableLinearLayout;
+	public LinearLayoutJalousie getLinearLayoutJalousie() {
+		return mLinearLayoutJalousie;
 	}
 
 	public IndicatorElement getIndicator() {
