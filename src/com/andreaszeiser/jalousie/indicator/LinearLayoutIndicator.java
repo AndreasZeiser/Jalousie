@@ -1,4 +1,4 @@
-package com.andreaszeiser.jalousie;
+package com.andreaszeiser.jalousie.indicator;
 
 import java.util.ArrayList;
 
@@ -7,21 +7,21 @@ import android.util.AttributeSet;
 import android.view.View;
 import android.widget.LinearLayout;
 
-public class UniversalLinearLayoutIndicator extends LinearLayout implements
+public class LinearLayoutIndicator extends LinearLayout implements
 		IndicatorElement {
 
 	private int mState = IndicatorElement.STATE_COLLAPSED;
 
 	private ArrayList<IndicatorElement> mIndicatorElements = new ArrayList<IndicatorElement>();
 
-	public UniversalLinearLayoutIndicator(Context context, AttributeSet attrs) {
+	public LinearLayoutIndicator(Context context, AttributeSet attrs) {
 
 		super(context, attrs);
 
 		init();
 	}
 
-	public UniversalLinearLayoutIndicator(Context context) {
+	public LinearLayoutIndicator(Context context) {
 
 		super(context);
 
@@ -72,6 +72,16 @@ public class UniversalLinearLayoutIndicator extends LinearLayout implements
 		default: // do nothing
 			break;
 		}
+	}
+	
+	@Override
+	public void show() {
+		setVisibility(View.VISIBLE);
+	}
+
+	@Override
+	public void hide() {
+		setVisibility(View.GONE);
 	}
 
 }

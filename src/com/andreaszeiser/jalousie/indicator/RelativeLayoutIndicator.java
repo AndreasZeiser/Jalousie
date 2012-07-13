@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.andreaszeiser.jalousie;
+package com.andreaszeiser.jalousie.indicator;
 
 import java.util.ArrayList;
 
@@ -32,7 +32,7 @@ import android.widget.RelativeLayout;
  * @author Andreas Zeiser
  * 
  */
-public class UniversalRelativeLayoutIndicator extends RelativeLayout implements
+public class RelativeLayoutIndicator extends RelativeLayout implements
 		IndicatorElement {
 
 	/**
@@ -43,7 +43,7 @@ public class UniversalRelativeLayoutIndicator extends RelativeLayout implements
 
 	private ArrayList<IndicatorElement> mIndicatorElements = new ArrayList<IndicatorElement>();
 
-	public UniversalRelativeLayoutIndicator(Context context,
+	public RelativeLayoutIndicator(Context context,
 			AttributeSet attrs, int defStyle) {
 
 		super(context, attrs, defStyle);
@@ -51,14 +51,14 @@ public class UniversalRelativeLayoutIndicator extends RelativeLayout implements
 		init();
 	}
 
-	public UniversalRelativeLayoutIndicator(Context context, AttributeSet attrs) {
+	public RelativeLayoutIndicator(Context context, AttributeSet attrs) {
 
 		super(context, attrs);
 
 		init();
 	}
 
-	public UniversalRelativeLayoutIndicator(Context context) {
+	public RelativeLayoutIndicator(Context context) {
 
 		super(context);
 
@@ -109,6 +109,16 @@ public class UniversalRelativeLayoutIndicator extends RelativeLayout implements
 		default: // do nothing
 			break;
 		}
+	}
+	
+	@Override
+	public void show() {
+		setVisibility(View.VISIBLE);
+	}
+
+	@Override
+	public void hide() {
+		setVisibility(View.GONE);
 	}
 
 }

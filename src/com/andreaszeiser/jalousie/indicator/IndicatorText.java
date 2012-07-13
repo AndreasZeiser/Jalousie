@@ -14,63 +14,67 @@
  * limitations under the License.
  */
 
-package com.andreaszeiser.jalousie;
+package com.andreaszeiser.jalousie.indicator;
+
+import com.andreaszeiser.jalousie.R;
+import com.andreaszeiser.jalousie.R.styleable;
 
 import android.content.Context;
 import android.content.res.TypedArray;
-import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
-import android.widget.ImageView;
+import android.util.Log;
+import android.view.View;
+import android.widget.TextView;
 
 /**
- * An ImageView class which implements the IndicatorElement interface for
- * indicating the state of a Jalousie component.
+ * A TextView which implements the IndicatorElement interface for indicating the
+ * state of a jalousie component.
  * 
- * Currently, this class supports two defined XML attributes: <br />
- * - expandIndicator and <br />
- * - collapseIndicator
+ * This class supports two custom attributes which can be defined in XML: <br />
+ * - expandIndicatorText and <br />
+ * - collapseIndicatorText
  * 
  * @author Andreas Zeiser
  * 
  */
-public class IndicatorImage extends ImageView implements IndicatorElement {
+public class IndicatorText extends TextView implements IndicatorElement {
 
-	private static final String TAG = IndicatorImage.class.getSimpleName();
+	private static final String TAG = IndicatorText.class.getSimpleName();
 
 	/**
-	 * Indicates the state of this view. Default state is collapsed state.
+	 * State of this indicated element. Default state is collapsed.
 	 */
 	private int mState = IndicatorElement.STATE_COLLAPSED;
 
 	/**
-	 * If the state of this view is expanded, this drawable will be shown.
+	 * This string will be shown, when this view is in expanded state.
 	 * 
 	 * @see #mState
 	 */
-	private Drawable mExpandIndicator;
+	private String mExpandIndicatorText;
 
 	/**
-	 * If the state of this view is collapsed, this drawable will be shown.
+	 * This string will be shown, when this view is in collapsed state.
 	 * 
 	 * @see #mState
 	 */
-	private Drawable mCollapseIndicator;
+	private String mCollapseIndicatorText;
 
-	public IndicatorImage(Context context, AttributeSet attrs, int defStyle) {
+	public IndicatorText(Context context, AttributeSet attrs, int defStyle) {
 
 		super(context, attrs, defStyle);
 
 		init(context, attrs);
 	}
 
-	public IndicatorImage(Context context, AttributeSet attrs) {
+	public IndicatorText(Context context, AttributeSet attrs) {
 
 		super(context, attrs);
 
 		init(context, attrs);
 	}
 
-	public IndicatorImage(Context context) {
+	public IndicatorText(Context context) {
 
 		super(context);
 
@@ -87,18 +91,16 @@ public class IndicatorImage extends ImageView implements IndicatorElement {
 					R.styleable.Indicator, 0, 0);
 
 			try {
-				mExpandIndicator = a
-						.getDrawable(R.styleable.Indicator_expandIndicator);
-				if (mExpandIndicator == null) {
-					mExpandIndicator = getResources().getDrawable(
-							R.drawable.ic_down);
+				mExpandIndicatorText = a
+						.getString(R.styleable.Indicator_expandIndicatorText);
+				if (mExpandIndicatorText == null) {
+					mExpandIndicatorText = "";
 				}
 
-				mCollapseIndicator = a
-						.getDrawable(R.styleable.Indicator_collapseIndicator);
-				if (mCollapseIndicator == null) {
-					mCollapseIndicator = getResources().getDrawable(
-							R.drawable.ic_up);
+				mCollapseIndicatorText = a
+						.getString(R.styleable.Indicator_collapseIndicatorText);
+				if (mCollapseIndicatorText == null) {
+					mCollapseIndicatorText = "";
 				}
 			} finally {
 				a.recycle();
@@ -107,14 +109,16 @@ public class IndicatorImage extends ImageView implements IndicatorElement {
 			setDefaults();
 		}
 
-		// set indicator
-		setImageDrawable(mExpandIndicator);
+		Log.v(TAG, "[init] expandIndicatorText=" + mExpandIndicatorText);
+		Log.v(TAG, "[init] collapseIndicatorText=" + mCollapseIndicatorText);
+
+		setText(mExpandIndicatorText);
 	}
 
 	private void setDefaults() {
 
-		mExpandIndicator = getResources().getDrawable(R.drawable.ic_down);
-		mCollapseIndicator = getResources().getDrawable(R.drawable.ic_up);
+		mExpandIndicatorText = "";
+		mCollapseIndicatorText = "";
 	}
 
 	@Override
@@ -128,21 +132,32 @@ public class IndicatorImage extends ImageView implements IndicatorElement {
 		switch (indicatorState) {
 		case IndicatorElement.STATE_COLLAPSED:
 
-			setImageDrawable(mCollapseIndicator);
+			setText(mCollapseIndicatorText);
 
 			mState = IndicatorElement.STATE_COLLAPSED;
 			break;
 
 		case IndicatorElement.STATE_EXPANDED:
 
-			setImageDrawable(mExpandIndicator);
+			setText(mExpandIndicatorText);
 
 			mState = IndicatorElement.STATE_EXPANDED;
 			break;
 
 		default:
+
 			break;
 		}
+	}
+	
+	@Override
+	public void show() {
+		setVisibility(View.VISIBLE);
+	}
+
+	@Override
+	public void hide() {
+		setVisibility(View.GONE);
 	}
 
 }

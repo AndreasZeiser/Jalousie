@@ -257,23 +257,28 @@ public class LinearLayoutJalousie extends LinearLayout implements Jalousie {
 					Log.v(TAG, "[onMeasure] gravity=horizontal");
 				}
 
-				// measure the maximum needed height for this view with MeasureSpec.Unspecified
-				// the framework itself will store the height in measured height through a call of setMeasuredHeight()
+				// measure the maximum needed height for this view with
+				// MeasureSpec.Unspecified
+				// the framework itself will store the height in measured height
+				// through a call of setMeasuredHeight()
 				super.onMeasure(MeasureSpec.UNSPECIFIED, heightMeasureSpec);
 
 				// get the measured height
 				mOriginalSize = getMeasuredWidth();
 
 				// calculate the height of visible content
-				// this is calculated by cumulating the height of all views which are positioned before the separator view
-				// calling of getTop() is not an option, because it will slow down the animation :/
+				// this is calculated by cumulating the height of all views
+				// which are positioned before the separator view
+				// calling of getTop() is not an option, because it will slow
+				// down the animation :/
 				mVisibleContentSize = 0;
 				int childCount = getChildCount();
 				View view = null;
 				for (int i = 0; i < childCount; i++) {
 					view = getChildAt(i);
 					// if the separator is found, stop cumulating here
-					// if there is no separator in the ViewGroup, the visible content height will be calculated to ViewGroup's height.
+					// if there is no separator in the ViewGroup, the visible
+					// content height will be calculated to ViewGroup's height.
 					if (view instanceof Separator) {
 						break;
 					}
@@ -284,23 +289,28 @@ public class LinearLayoutJalousie extends LinearLayout implements Jalousie {
 					Log.v(TAG, "[onMeasure] gravity=vertical");
 				}
 
-				// measure the maximum needed height for this view with MeasureSpec.Unspecified
-				// the framework itself will store the height in measured height through a call of setMeasuredHeight()
+				// measure the maximum needed height for this view with
+				// MeasureSpec.Unspecified
+				// the framework itself will store the height in measured height
+				// through a call of setMeasuredHeight()
 				super.onMeasure(widthMeasureSpec, MeasureSpec.UNSPECIFIED);
 
 				// get the measured height
 				mOriginalSize = getMeasuredHeight();
 
 				// calculate the height of visible content
-				// this is calculated by cumulating the height of all views which are positioned before the separator view
-				// calling of getTop() is not an option, because it will slow down the animation :/
+				// this is calculated by cumulating the height of all views
+				// which are positioned before the separator view
+				// calling of getTop() is not an option, because it will slow
+				// down the animation :/
 				mVisibleContentSize = 0;
 				int childCount = getChildCount();
 				View view = null;
 				for (int i = 0; i < childCount; i++) {
 					view = getChildAt(i);
 					// if the separator is found, stop cumulating here
-					// if there is no separator in the ViewGroup, the visible content height will be calculated to ViewGroup's height.
+					// if there is no separator in the ViewGroup, the visible
+					// content height will be calculated to ViewGroup's height.
 					if (view instanceof Separator) {
 						break;
 					}
@@ -489,12 +499,14 @@ public class LinearLayoutJalousie extends LinearLayout implements Jalousie {
 		}
 
 		if (mIsAlwaysExpanded && mIsExpanded) {
-			// if view is always expanded and is not collapsed at this time, stop here
+			// if view is always expanded and is not collapsed at this time,
+			// stop here
 			return false;
 		}
 
 		if (!mIsAnimating && mIsExpanded) {
-			// if view is already expanded, do not expand and return false as result
+			// if view is already expanded, do not expand and return false as
+			// result
 			return false;
 		}
 
@@ -507,7 +519,8 @@ public class LinearLayoutJalousie extends LinearLayout implements Jalousie {
 
 		if (mSeparator != null) {
 			if (mContentGravity == Jalousie.GRAVITY_HORIZONTAL) {
-				// everything on the left side of the separator is the 'visible' content
+				// everything on the left side of the separator is the 'visible'
+				// content
 				mVisibleContentSize = mSeparator.getLeft();
 			} else {
 				// everything above the separator is the 'visible' content
@@ -517,12 +530,14 @@ public class LinearLayoutJalousie extends LinearLayout implements Jalousie {
 
 		int from = 0;
 		if (mContentGravity == Jalousie.GRAVITY_HORIZONTAL) {
-			// at startup, getCurrentWidth() returns size smaller than the visible size, catch that
+			// at startup, getCurrentWidth() returns size smaller than the
+			// visible size, catch that
 			// otherwise use every time the current width
 			from = (getCurrentWidth() == 0 || getCurrentWidth() < mVisibleContentSize) ? mVisibleContentSize
 					: getCurrentWidth();
 		} else {
-			// at startup, getCurrentHeight() returns size smaller than the visible size, catch that
+			// at startup, getCurrentHeight() returns size smaller than the
+			// visible size, catch that
 			// otherwise use every time the current size
 			from = (getCurrentHeight() == 0 || getCurrentHeight() < mVisibleContentSize) ? mVisibleContentSize
 					: getCurrentHeight();
@@ -610,12 +625,14 @@ public class LinearLayoutJalousie extends LinearLayout implements Jalousie {
 		}
 
 		if (mIsAlwaysExpanded) {
-			// if view is always expanded and is not collapsed at this time, stop here
+			// if view is always expanded and is not collapsed at this time,
+			// stop here
 			return false;
 		}
 
 		if (!mIsAnimating && !mIsExpanded) {
-			// if view is already collapsed, do not collapse and return false as result
+			// if view is already collapsed, do not collapse and return false as
+			// result
 			return false;
 		}
 
@@ -628,7 +645,8 @@ public class LinearLayoutJalousie extends LinearLayout implements Jalousie {
 
 		if (mSeparator != null) {
 			if (mContentGravity == Jalousie.GRAVITY_HORIZONTAL) {
-				// everything on the left side of the separator is the 'visible' content
+				// everything on the left side of the separator is the 'visible'
+				// content
 				mVisibleContentSize = mSeparator.getLeft();
 			} else {
 				// everything above the separator is the 'visible' content
@@ -743,7 +761,7 @@ public class LinearLayoutJalousie extends LinearLayout implements Jalousie {
 		mInterpolator = interpolator;
 	}
 
-	public void setExpandableViewGroupListener(final JalousieListener listener) {
+	public void setJalousieListener(final JalousieListener listener) {
 		mJalousieListener = listener;
 	}
 

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.andreaszeiser.jalousie;
+package com.andreaszeiser.jalousie.indicator;
 
 /**
  * Basic functionaliyt for an element which indicates the state of a Jalousie
@@ -54,5 +54,15 @@ public interface IndicatorElement {
 	 *            either {@link #STATE_EXPANDED} or {@link #STATE_COLLAPSED}
 	 */
 	public void setState(final int indicatorState);
+
+	/**
+	 * Shows view element with <code>View.Visible</code>.
+	 */
+	public void show();
+
+	/**
+	 * Hides view element with <code>View.Gone</code>.
+	 */
+	public void hide();
 
 }
