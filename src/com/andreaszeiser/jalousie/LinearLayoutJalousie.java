@@ -337,7 +337,7 @@ public class LinearLayoutJalousie extends LinearLayout implements Jalousie {
 
 		Log.v(TAG, "[onMeasure] mIsExpanded=" + mIsExpanded);
 
-		if (!mIsAnimating && !mIsExpanded) {
+		if (!mIsAnimating && !mIsExpanded && !mIsAlwaysExpanded) {
 			if (DEBUG) {
 				Log.v(TAG, "[onMeasure] set self measured dimension");
 			}
@@ -741,6 +741,12 @@ public class LinearLayoutJalousie extends LinearLayout implements Jalousie {
 	public void setIsAlwaysExpanded(final boolean alwaysExpanded) {
 
 		mIsAlwaysExpanded = alwaysExpanded;
+
+		if (!mIsExpanded) {
+			expand(false);
+		} else if (!mIsAlwaysExpanded && mIsExpanded) {
+			collapse(false);
+		}
 	}
 
 	@Override
