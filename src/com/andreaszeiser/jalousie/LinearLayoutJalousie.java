@@ -742,7 +742,7 @@ public class LinearLayoutJalousie extends LinearLayout implements Jalousie {
 
 		mIsAlwaysExpanded = alwaysExpanded;
 
-		if (!mIsExpanded) {
+		if (mIsAlwaysExpanded && !mIsExpanded) {
 			expand(false);
 		} else if (!mIsAlwaysExpanded && mIsExpanded) {
 			collapse(false);
