@@ -129,6 +129,7 @@ public class IndicatorText extends TextView implements IndicatorElement {
 
 	@Override
 	public void setState(int indicatorState) {
+
 		switch (indicatorState) {
 		case IndicatorElement.STATE_COLLAPSED:
 
@@ -149,15 +150,35 @@ public class IndicatorText extends TextView implements IndicatorElement {
 			break;
 		}
 	}
-	
+
 	@Override
 	public void show() {
+
 		setVisibility(View.VISIBLE);
 	}
 
 	@Override
 	public void hide() {
+
 		setVisibility(View.GONE);
+	}
+
+	public void setExpandIndicatorText(final String expandIndicatorText) {
+
+		mExpandIndicatorText = expandIndicatorText;
+
+		if (mState == IndicatorElement.STATE_EXPANDED) {
+			setText(mExpandIndicatorText);
+		}
+	}
+
+	public void setCollapseIndicatorText(final String collapseIndicatorText) {
+
+		mCollapseIndicatorText = collapseIndicatorText;
+
+		if (mState == IndicatorElement.STATE_COLLAPSED) {
+			setText(mCollapseIndicatorText);
+		}
 	}
 
 }

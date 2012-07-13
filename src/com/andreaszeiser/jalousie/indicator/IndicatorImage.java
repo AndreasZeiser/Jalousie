@@ -16,16 +16,14 @@
 
 package com.andreaszeiser.jalousie.indicator;
 
-import com.andreaszeiser.jalousie.R;
-import com.andreaszeiser.jalousie.R.drawable;
-import com.andreaszeiser.jalousie.R.styleable;
-
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.ImageView;
+
+import com.andreaszeiser.jalousie.R;
 
 /**
  * An ImageView class which implements the IndicatorElement interface for
@@ -149,7 +147,7 @@ public class IndicatorImage extends ImageView implements IndicatorElement {
 			break;
 		}
 	}
-	
+
 	@Override
 	public void show() {
 		setVisibility(View.VISIBLE);
@@ -160,4 +158,21 @@ public class IndicatorImage extends ImageView implements IndicatorElement {
 		setVisibility(View.GONE);
 	}
 
+	public void setExpandIndicator(final Drawable expandIndicator) {
+
+		mExpandIndicator = expandIndicator;
+
+		if (mState == IndicatorElement.STATE_EXPANDED) {
+			setImageDrawable(mExpandIndicator);
+		}
+	}
+
+	public void setCollapseIndicator(final Drawable collapseIndicator) {
+
+		mCollapseIndicator = collapseIndicator;
+
+		if (mState == IndicatorElement.STATE_COLLAPSED) {
+			setImageDrawable(mCollapseIndicator);
+		}
+	}
 }
