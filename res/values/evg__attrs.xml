@@ -1,8 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <!-- attributes for Jalousie components -->
+    <declare-styleable name="Jalousie">
+
+        <!-- expanded on startup? -->
+        <attr name="expanded" format="boolean" />
+        <!-- won't be able to collapse -->
+        <attr name="alwaysExpanded" format="boolean" />
+    </declare-styleable>
+
+    <!-- attributes for indicator components -->
     <declare-styleable name="Indicator">
-        <!-- Text to be shown when view is collapsed. -->
+
+        <!-- Text to be shown when view is collapsed. -->
         <attr name="expandIndicatorText" format="string" />
         <!-- Text to be shown when view is expanded. -->
         <attr name="collapseIndicatorText" format="string" />

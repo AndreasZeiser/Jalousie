@@ -110,12 +110,14 @@ public interface Jalousie {
 	 * If view is collapsed, then view will be expanded through
 	 * {@link #expand()}, otherwise view will be collapsed {@link #collapse()}.
 	 * 
+	 * @return true, if view was expanded or collapsed
+	 * 
 	 * @see #expand()
 	 * @see #collapse()
 	 * @see #isExpanded()
 	 * @see #isExpandable()
 	 */
-	public void toggle();
+	public boolean toggle();
 
 	/**
 	 * If view is expanded, this method returns true.

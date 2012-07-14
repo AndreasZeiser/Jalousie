@@ -17,6 +17,7 @@
 package com.andreaszeiser.jalousie;
 
 import android.content.Context;
+import android.content.res.TypedArray;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.util.AttributeSet;
@@ -191,23 +192,38 @@ public class LinearLayoutJalousie extends LinearLayout implements Jalousie {
 
 		super(context, attrs);
 
-		init();
+		init(context, attrs);
 	}
 
 	public LinearLayoutJalousie(Context context) {
 
 		super(context);
 
-		init();
+		init(context, null);
 	}
 
 	/**
 	 * Should only be called from constructor.
 	 */
-	private void init() {
+	private void init(final Context context, final AttributeSet attrs) {
 
 		mContentGravity = (getOrientation() == LinearLayout.HORIZONTAL) ? Jalousie.GRAVITY_HORIZONTAL
 				: Jalousie.GRAVITY_VERTICAL;
+
+		if (attrs != null) {
+			TypedArray a = context.getTheme().obtainStyledAttributes(attrs,
+					R.styleable.Jalousie, 0, 0);
+
+			try {
+				mIsExpanded = a
+						.getBoolean(R.styleable.Jalousie_expanded, false);
+
+				mIsAlwaysExpanded = a.getBoolean(
+						R.styleable.Jalousie_alwaysExpanded, false);
+			} finally {
+				a.recycle();
+			}
+		}
 
 		if (DEBUG) {
 			Log.v(TAG,
@@ -709,13 +725,17 @@ public class LinearLayoutJalousie extends LinearLayout implements Jalousie {
 	 * @see #collapse()
 	 */
 	@Override
-	public void toggle() {
+	public boolean toggle() {
+
+		if (mIsAlwaysExpanded) {
+			return false;
+		}
 
 		if ((mIsAnimating && mAnimationType == ANIMATION_TYPE_EXPAND)
-				|| (!mIsAnimating && mIsExpanded && !mIsAlwaysExpanded)) {
-			collapse();
+				|| (!mIsAnimating && mIsExpanded)) {
+			return collapse();
 		} else {
-			expand();
+			return expand();
 		}
 	}
 
@@ -743,9 +763,13 @@ public class LinearLayoutJalousie extends LinearLayout implements Jalousie {
 		mIsAlwaysExpanded = alwaysExpanded;
 
 		if (mIsAlwaysExpanded && !mIsExpanded) {
-			expand(false);
+			if (!expand(false)) {
+				mIsExpanded = true;
+			}
 		} else if (!mIsAlwaysExpanded && mIsExpanded) {
-			collapse(false);
+			if (!collapse(false)) {
+				mIsExpanded = false;
+			}
 		}
 	}
 
