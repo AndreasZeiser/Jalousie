@@ -372,7 +372,25 @@ public class LinearLayoutJalousie extends LinearLayout implements Jalousie {
 				Log.v(TAG, "[onMeasure] set framework measured dimension");
 			}
 
-			super.onMeasure(widthMeasureSpec, heightMeasureSpec);
+			if (mContentGravity == Jalousie.GRAVITY_HORIZONTAL) {
+				final int widthMode = MeasureSpec.getMode(widthMeasureSpec);
+				final int widthSize = MeasureSpec.getSize(widthMeasureSpec);
+
+				if (widthMode == MeasureSpec.UNSPECIFIED) {
+					super.onMeasure(widthMeasureSpec, heightMeasureSpec);
+				} else {
+					setMeasuredDimension(widthSize, getMeasuredHeight());
+				}
+			} else { // gravity=vertical
+				final int heightMode = MeasureSpec.getMode(heightMeasureSpec);
+				final int heightSize = MeasureSpec.getSize(heightMeasureSpec);
+
+				if (heightMode == MeasureSpec.UNSPECIFIED) {
+					super.onMeasure(widthMeasureSpec, heightMeasureSpec);
+				} else {
+					setMeasuredDimension(getMeasuredWidth(), heightSize);
+				}
+			}
 		}
 
 		if (DEBUG) {
