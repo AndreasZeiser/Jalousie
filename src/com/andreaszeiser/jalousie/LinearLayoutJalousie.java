@@ -594,7 +594,7 @@ public class LinearLayoutJalousie extends LinearLayout implements Jalousie {
 				mAnimationType = 0;
 				mIsExpanded = true;
 
-				notifiyOnAnimationEnd(JalousieListener.ACTION_COLLAPSE);
+				notifiyOnAnimationEnd(JalousieListener.ACTION_EXPAND);
 			}
 		});
 
@@ -688,7 +688,7 @@ public class LinearLayoutJalousie extends LinearLayout implements Jalousie {
 				mIsAnimating = true;
 				mAnimationType = ANIMATION_TYPE_COLLAPSE;
 
-				notifiyOnAnimationStart(JalousieListener.ACTION_EXPAND,
+				notifiyOnAnimationStart(JalousieListener.ACTION_COLLAPSE,
 						animationDuration);
 			}
 
