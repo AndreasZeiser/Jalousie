@@ -1,13 +1,13 @@
 package com.andreaszeiser.jalousie;
 
-import com.andreaszeiser.jalousie.indicator.IndicatorElement;
-
 import android.content.Context;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.LinearLayout;
+
+import com.andreaszeiser.jalousie.indicator.IndicatorElement;
 
 public class IndicatedLinearLayoutJalousie extends LinearLayout {
 
@@ -74,7 +74,7 @@ public class IndicatedLinearLayoutJalousie extends LinearLayout {
 
 			if (view instanceof LinearLayoutJalousie) {
 				mLinearLayoutJalousie = (LinearLayoutJalousie) view;
-				mLinearLayoutJalousie.setJalousieListener(mJalousieListener);
+				mLinearLayoutJalousie.addJalousieListener(mJalousieListener);
 			} else if (view instanceof IndicatorElement) {
 				mIndicator = (IndicatorElement) view;
 			}

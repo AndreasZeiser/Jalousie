@@ -16,6 +16,8 @@
 
 package com.andreaszeiser.jalousie;
 
+import java.util.ArrayList;
+
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.os.Bundle;
@@ -184,9 +186,9 @@ public class LinearLayoutJalousie extends LinearLayout implements Jalousie {
 	private Interpolator mInterpolator = new AccelerateDecelerateInterpolator();
 
 	/**
-	 * Reference to the event listener for this class.
+	 * Bucket of JalousListener elements.
 	 */
-	private JalousieListener mJalousieListener;
+	private ArrayList<JalousieListener> mJalousieListeners;
 
 	public LinearLayoutJalousie(Context context, AttributeSet attrs) {
 
@@ -206,6 +208,8 @@ public class LinearLayoutJalousie extends LinearLayout implements Jalousie {
 	 * Should only be called from constructor.
 	 */
 	private void init(final Context context, final AttributeSet attrs) {
+
+		mJalousieListeners = new ArrayList<JalousieListener>();
 
 		mContentGravity = (getOrientation() == LinearLayout.HORIZONTAL) ? Jalousie.GRAVITY_HORIZONTAL
 				: Jalousie.GRAVITY_VERTICAL;
@@ -578,10 +582,8 @@ public class LinearLayoutJalousie extends LinearLayout implements Jalousie {
 				mIsAnimating = true;
 				mAnimationType = ANIMATION_TYPE_EXPAND;
 
-				if (mJalousieListener != null) {
-					mJalousieListener.onActionStart(
-							JalousieListener.ACTION_EXPAND, animationDuration);
-				}
+				notifiyOnAnimationStart(JalousieListener.ACTION_EXPAND,
+						animationDuration);
 			}
 
 			@Override
@@ -592,10 +594,7 @@ public class LinearLayoutJalousie extends LinearLayout implements Jalousie {
 				mAnimationType = 0;
 				mIsExpanded = true;
 
-				if (mJalousieListener != null) {
-					mJalousieListener
-							.onActionEnd(JalousieListener.ACTION_EXPAND);
-				}
+				notifiyOnAnimationEnd(JalousieListener.ACTION_COLLAPSE);
 			}
 		});
 
@@ -689,11 +688,8 @@ public class LinearLayoutJalousie extends LinearLayout implements Jalousie {
 				mIsAnimating = true;
 				mAnimationType = ANIMATION_TYPE_COLLAPSE;
 
-				if (mJalousieListener != null) {
-					mJalousieListener
-							.onActionStart(JalousieListener.ACTION_COLLAPSE,
-									animationDuration);
-				}
+				notifiyOnAnimationStart(JalousieListener.ACTION_EXPAND,
+						animationDuration);
 			}
 
 			@Override
@@ -704,10 +700,7 @@ public class LinearLayoutJalousie extends LinearLayout implements Jalousie {
 				mAnimationType = 0;
 				mIsExpanded = false;
 
-				if (mJalousieListener != null) {
-					mJalousieListener
-							.onActionEnd(JalousieListener.ACTION_COLLAPSE);
-				}
+				notifiyOnAnimationEnd(JalousieListener.ACTION_COLLAPSE);
 			}
 		});
 
@@ -791,8 +784,33 @@ public class LinearLayoutJalousie extends LinearLayout implements Jalousie {
 		mInterpolator = interpolator;
 	}
 
-	public void setJalousieListener(final JalousieListener listener) {
-		mJalousieListener = listener;
+	public void addJalousieListener(final JalousieListener listener) {
+		if (mJalousieListeners == null) {
+			mJalousieListeners = new ArrayList<JalousieListener>();
+		}
+
+		mJalousieListeners.add(listener);
+	}
+
+	public boolean removeJalousieListener(final JalousieListener listener) {
+		if (mJalousieListeners == null) {
+			return false;
+		}
+
+		return mJalousieListeners.remove(listener);
+	}
+
+	private void notifiyOnAnimationStart(final int action,
+			final int animationDuration) {
+		for (JalousieListener listener : mJalousieListeners) {
+			listener.onActionStart(action, animationDuration);
+		}
+	}
+
+	private void notifiyOnAnimationEnd(final int action) {
+		for (JalousieListener listener : mJalousieListeners) {
+			listener.onActionEnd(action);
+		}
 	}
 
 }
