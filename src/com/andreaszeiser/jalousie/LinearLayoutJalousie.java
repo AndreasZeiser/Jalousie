@@ -831,4 +831,71 @@ public class LinearLayoutJalousie extends LinearLayout implements Jalousie {
 		}
 	}
 
+	/**
+	 * Adds the given view at the index 0.
+	 * 
+	 * @param view
+	 */
+	public void prependViewBeforeSeparator(final View view) {
+		addView(view, 0);
+	}
+
+	/**
+	 * Adds the given view at the index right before the separator's index.
+	 * 
+	 * @param view
+	 */
+	public void appendViewBeforeSeparator(final View view) {
+		final int separatorIndex = indexOfChild(mSeparator);
+
+		if (separatorIndex >= 0) {
+			addView(view, separatorIndex - 1);
+		}
+	}
+
+	/**
+	 * Adds the given view at the index right after the separator's index.
+	 * 
+	 * @param view
+	 */
+	public void prependViewAfterSeparator(final View view) {
+		final int separatorIndex = indexOfChild(mSeparator);
+
+		if (separatorIndex >= 0) {
+			addView(view, separatorIndex + 1);
+		}
+	}
+
+	/**
+	 * Adds the given view at the last index.
+	 * 
+	 * @param view
+	 */
+	public void appendViewAfterSeparator(final View view) {
+		addView(view, getChildCount() - 1);
+	}
+
+	/**
+	 * Removes all views which have an index < separator's index.
+	 */
+	public void removeViewsBeforeSeparator() {
+		final int separatorIndex = indexOfChild(mSeparator);
+
+		if (separatorIndex >= 0) {
+			removeViews(0, separatorIndex - 1);
+		}
+	}
+
+	/**
+	 * Removes all views which have an index > separator's index.
+	 */
+	public void removeViewsAfterSeparator() {
+		final int separatorIndex = indexOfChild(mSeparator);
+		final int lastChildIndex = getChildCount() - 1;
+
+		if (separatorIndex >= 0 && separatorIndex <= lastChildIndex) {
+			removeViews(separatorIndex + 1, lastChildIndex);
+		}
+	}
+
 }
