@@ -1,6 +1,7 @@
 package com.andreaszeiser.jalousie;
 
 import android.content.Context;
+import android.graphics.Rect;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.MotionEvent;
@@ -94,7 +95,13 @@ public class IndicatedLinearLayoutJalousie extends LinearLayout {
 	public boolean onInterceptTouchEvent(MotionEvent ev) {
 		switch (ev.getAction()) {
 		case MotionEvent.ACTION_UP:
-			mLinearLayoutJalousie.toggle();
+			if (mLinearLayoutJalousie != null) {
+				final Rect outRect = new Rect();
+				mLinearLayoutJalousie.getHitRect(outRect);
+				if (!outRect.contains((int) ev.getX(), (int) ev.getY())) {
+					mLinearLayoutJalousie.toggle();
+				}
+			}
 			break;
 
 		default:
