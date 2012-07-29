@@ -126,6 +126,16 @@ public class LinearLayoutJalousie extends LinearLayout implements Jalousie {
 	private boolean mVisibleContentSizeWasMeasured = false;
 
 	/**
+	 * If this is set to true, current measured content size
+	 * {@link #mVisibleContentSize} will be set as dimension for this view in
+	 * its {@link #onMeasure(int, int)} method.
+	 * 
+	 * @see #onMeasure(int, int)
+	 * @see #mVisibleContentSizeWasMeasured
+	 */
+	private boolean mForceRelayout = false;
+
+	/**
 	 * Indicates whether this view can be expanded or not.
 	 * 
 	 * @see #isExpandable()
@@ -248,11 +258,13 @@ public class LinearLayoutJalousie extends LinearLayout implements Jalousie {
 		super.onFinishInflate();
 
 		mSeparator = (Separator) findViewById(R.id.evg__separator);
+
+		Log.v(TAG, "[onFinishInflate] separator found=" + mSeparator);
 	}
 
 	/**
-	 * Is responsable for measuring the visible content size. If visible content
-	 * size was already measured, measuring will be skipped.
+	 * Is responseable for measuring the visible content size. If visible
+	 * content size was already measured, measuring will be skipped.
 	 * 
 	 * Takes also care of specified content gravity in {@link #mContentGravity}.
 	 * 
@@ -267,11 +279,12 @@ public class LinearLayoutJalousie extends LinearLayout implements Jalousie {
 	protected void onMeasure(final int widthMeasureSpec,
 			final int heightMeasureSpec) {
 
-		if (!mVisibleContentSizeWasMeasured) {
-			if (DEBUG) {
-				Log.v(TAG, "[onMeasure, !mVisibleContentSizeWasMeasured]");
-			}
+		if (DEBUG) {
+			Log.v(TAG, "[onMeasure] mVisibleContentSizeWasMeasured="
+					+ mVisibleContentSizeWasMeasured);
+		}
 
+		if (!mVisibleContentSizeWasMeasured) {
 			if (mContentGravity == Jalousie.GRAVITY_HORIZONTAL) {
 				if (DEBUG) {
 					Log.v(TAG, "[onMeasure] gravity=horizontal");
@@ -283,7 +296,7 @@ public class LinearLayoutJalousie extends LinearLayout implements Jalousie {
 				// through a call of setMeasuredHeight()
 				super.onMeasure(MeasureSpec.UNSPECIFIED, heightMeasureSpec);
 
-				// get the measured height
+				// get the measured width
 				mOriginalSize = getMeasuredWidth();
 
 				// calculate the height of visible content
@@ -355,9 +368,20 @@ public class LinearLayoutJalousie extends LinearLayout implements Jalousie {
 			mVisibleContentSizeWasMeasured = true;
 		}
 
+		Log.v(TAG, "[onMeasure] mForceRelayout=" + mForceRelayout);
+		Log.v(TAG, "[onMeasure] mIsAnimating=" + mIsAnimating);
 		Log.v(TAG, "[onMeasure] mIsExpanded=" + mIsExpanded);
+		Log.v(TAG, "[onMeasure] mIsAlwaysExpanded=" + mIsAlwaysExpanded);
 
-		if (!mIsAnimating && !mIsExpanded && !mIsAlwaysExpanded) {
+		if (mForceRelayout && mIsExpanded) {
+			mForceRelayout = false;
+
+			if (mContentGravity == Jalousie.GRAVITY_HORIZONTAL) {
+				setMeasuredDimension(mOriginalSize, getMeasuredHeight());
+			} else {
+				setMeasuredDimension(getMeasuredWidth(), mOriginalSize);
+			}
+		} else if (!mIsAnimating && !mIsExpanded && !mIsAlwaysExpanded) {
 			if (DEBUG) {
 				Log.v(TAG, "[onMeasure] set self measured dimension");
 			}
@@ -369,7 +393,8 @@ public class LinearLayoutJalousie extends LinearLayout implements Jalousie {
 			}
 		} else {
 			if (DEBUG) {
-				Log.v(TAG, "[onMeasure] set framework measured dimension");
+				Log.v(TAG,
+						"[onMeasure] set Android framework measured dimension");
 			}
 
 			if (mContentGravity == Jalousie.GRAVITY_HORIZONTAL) {
@@ -397,6 +422,29 @@ public class LinearLayoutJalousie extends LinearLayout implements Jalousie {
 			Log.v(TAG, "[onMeasure] measured width=" + getMeasuredWidth());
 			Log.v(TAG, "[onMeasure] measured height=" + getMeasuredHeight());
 		}
+	}
+
+	/**
+	 * Call this method, if this view should set its dimension to freshly
+	 * calculated {@link #mVisibleContentSize}. This is particularly helpful, if
+	 * views were added or removed before.
+	 */
+	void forceRelayout() {
+
+		Log.v(TAG, "[forceRelayout]");
+
+		mVisibleContentSizeWasMeasured = false;
+		mForceRelayout = true;
+	}
+
+	@Override
+	public void requestLayout() {
+
+		Log.v(TAG, "[requestLayout]");
+
+		mVisibleContentSizeWasMeasured = false;
+
+		super.requestLayout();
 	}
 
 	@Override
@@ -566,21 +614,6 @@ public class LinearLayoutJalousie extends LinearLayout implements Jalousie {
 			}
 		}
 
-		int from = 0;
-		if (mContentGravity == Jalousie.GRAVITY_HORIZONTAL) {
-			// at startup, getCurrentWidth() returns size smaller than the
-			// visible size, catch that
-			// otherwise use every time the current width
-			from = (getCurrentWidth() == 0 || getCurrentWidth() < mVisibleContentSize) ? mVisibleContentSize
-					: getCurrentWidth();
-		} else {
-			// at startup, getCurrentHeight() returns size smaller than the
-			// visible size, catch that
-			// otherwise use every time the current size
-			from = (getCurrentHeight() == 0 || getCurrentHeight() < mVisibleContentSize) ? mVisibleContentSize
-					: getCurrentHeight();
-		}
-
 		if (mCurrentAnimator != null && mCurrentAnimator.isRunning()) {
 			mCurrentAnimator.cancel();
 		}
@@ -588,8 +621,8 @@ public class LinearLayoutJalousie extends LinearLayout implements Jalousie {
 		// configure animation duration
 		final int animationDuration = animated ? mAnimationDuration : 0;
 
-		mCurrentAnimator = ObjectAnimator.ofInt(this, propertyName, from,
-				mOriginalSize);
+		mCurrentAnimator = ObjectAnimator.ofInt(this, propertyName,
+				mVisibleContentSize, mOriginalSize);
 		mCurrentAnimator.setDuration(animationDuration);
 		mCurrentAnimator.setInterpolator(mInterpolator);
 		mCurrentAnimator.addListener(new AnimatorListenerAdapter() {
@@ -695,7 +728,7 @@ public class LinearLayoutJalousie extends LinearLayout implements Jalousie {
 		final int animationDuration = animated ? mAnimationDuration : 0;
 
 		mCurrentAnimator = ObjectAnimator.ofInt(this, propertyName,
-				mVisibleContentSize);
+				mOriginalSize, mVisibleContentSize);
 		mCurrentAnimator.setDuration(animationDuration);
 		mCurrentAnimator.setInterpolator(mInterpolator);
 		mCurrentAnimator.addListener(new AnimatorListenerAdapter() {
@@ -738,15 +771,21 @@ public class LinearLayoutJalousie extends LinearLayout implements Jalousie {
 	@Override
 	public boolean toggle() {
 
+		return toggle(true);
+	}
+
+	@Override
+	public boolean toggle(boolean animated) {
+
 		if (mIsAlwaysExpanded) {
 			return false;
 		}
 
 		if ((mIsAnimating && mAnimationType == ANIMATION_TYPE_EXPAND)
 				|| (!mIsAnimating && mIsExpanded)) {
-			return collapse();
+			return collapse(animated);
 		} else {
-			return expand();
+			return expand(animated);
 		}
 	}
 
@@ -837,7 +876,13 @@ public class LinearLayoutJalousie extends LinearLayout implements Jalousie {
 	 * @param view
 	 */
 	public void prependViewBeforeSeparator(final View view) {
+
+		Log.v(TAG, "[prependViewBeforeSeparator] view=" + view);
+
 		addView(view, 0);
+
+		forceRelayout();
+		requestLayout();
 	}
 
 	/**
@@ -846,11 +891,18 @@ public class LinearLayoutJalousie extends LinearLayout implements Jalousie {
 	 * @param view
 	 */
 	public void appendViewBeforeSeparator(final View view) {
+
 		final int separatorIndex = indexOfChild(mSeparator);
 
+		Log.v(TAG, "[appendViewBeforeSeparator] view=" + view
+				+ ", separatorIndex=" + separatorIndex);
+
 		if (separatorIndex >= 0) {
-			addView(view, separatorIndex - 1);
+			addView(view, separatorIndex);
 		}
+
+		forceRelayout();
+		requestLayout();
 	}
 
 	/**
@@ -859,11 +911,18 @@ public class LinearLayoutJalousie extends LinearLayout implements Jalousie {
 	 * @param view
 	 */
 	public void prependViewAfterSeparator(final View view) {
+
 		final int separatorIndex = indexOfChild(mSeparator);
+
+		Log.v(TAG, "[prependViewAfterSeparator] view=" + view
+				+ ", separatorIndex=" + separatorIndex);
 
 		if (separatorIndex >= 0) {
 			addView(view, separatorIndex + 1);
 		}
+
+		forceRelayout();
+		requestLayout();
 	}
 
 	/**
@@ -872,30 +931,53 @@ public class LinearLayoutJalousie extends LinearLayout implements Jalousie {
 	 * @param view
 	 */
 	public void appendViewAfterSeparator(final View view) {
-		addView(view, getChildCount() - 1);
+
+		Log.v(TAG, "[appendViewAfterSeparator] view=" + view);
+
+		addView(view, getChildCount());
+
+		forceRelayout();
+		requestLayout();
 	}
 
 	/**
 	 * Removes all views which have an index < separator's index.
 	 */
 	public void removeViewsBeforeSeparator() {
+
 		final int separatorIndex = indexOfChild(mSeparator);
 
+		Log.v(TAG, "[removeViewsBeforeSeparator] separatorIndex="
+				+ separatorIndex);
+
 		if (separatorIndex >= 0) {
-			removeViews(0, separatorIndex - 1);
+			removeViews(0, separatorIndex);
 		}
+
+		forceRelayout();
 	}
 
 	/**
 	 * Removes all views which have an index > separator's index.
 	 */
 	public void removeViewsAfterSeparator() {
-		final int separatorIndex = indexOfChild(mSeparator);
-		final int lastChildIndex = getChildCount() - 1;
 
-		if (separatorIndex >= 0 && separatorIndex <= lastChildIndex) {
-			removeViews(separatorIndex + 1, lastChildIndex);
+		final int separatorIndex = indexOfChild(mSeparator);
+		final int removeChildrenCount = getChildCount() - 1 - separatorIndex;
+
+		Log.v(TAG, "[removeViewsAfterSeparator] separatorIndex="
+				+ separatorIndex + ", removeChildrenCount="
+				+ removeChildrenCount);
+
+		if (separatorIndex >= 0 && removeChildrenCount > 0) {
+			removeViews(separatorIndex + 1, removeChildrenCount);
 		}
+
+		// always close jalousie if there is no content expandable
+		collapse(false);
+
+		// set state, so that this jalousie is no more expandable 
+		mIsExpandable = false;
 	}
 
 }

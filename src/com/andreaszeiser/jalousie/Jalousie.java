@@ -73,7 +73,7 @@ public interface Jalousie {
 	 *            vieW will expand immediately without animation.
 	 * @return true, if view will expand.
 	 */
-	public boolean expand(boolean animated);
+	public boolean expand(final boolean animated);
 
 	/**
 	 * If view is expanded at the time of call of this method, the view will
@@ -104,7 +104,7 @@ public interface Jalousie {
 	 *            view will collapse immediately without animation.
 	 * @return
 	 */
-	public boolean collapse(boolean animated);
+	public boolean collapse(final boolean animated);
 
 	/**
 	 * If view is collapsed, then view will be expanded through
@@ -118,6 +118,17 @@ public interface Jalousie {
 	 * @see #isExpandable()
 	 */
 	public boolean toggle();
+
+	/**
+	 * If view is collapsed, then view will be expanded through
+	 * {@link #expand(boolean)}, otherwise view will be collapsed
+	 * {@link #collapse(boolean)}.
+	 * 
+	 * @param animated
+	 *            if true, expand / collapse will be animated, otherwise not.
+	 * @return
+	 */
+	public boolean toggle(final boolean animated);
 
 	/**
 	 * If view is expanded, this method returns true.

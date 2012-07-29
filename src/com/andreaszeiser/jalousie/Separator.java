@@ -18,30 +18,59 @@ package com.andreaszeiser.jalousie;
 
 import android.content.Context;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.View;
 
 /**
  * This class separates the visible and the non-visible content within
- * LinearLayoutJalousie. 
+ * LinearLayoutJalousie.
  * 
  * @author Andreas Zeiser
  * 
  */
 public final class Separator extends View {
 
+	private static final String TAG = Separator.class.getSimpleName();
+
 	public Separator(Context context, AttributeSet attrs, int defStyle) {
 
 		super(context, attrs, defStyle);
+
+		init();
 	}
 
 	public Separator(Context context, AttributeSet attrs) {
 
 		super(context, attrs);
+
+		init();
 	}
 
 	public Separator(Context context) {
 
 		super(context);
+
+		init();
+	}
+
+	private void init() {
+
+		Log.v(TAG, "[init]");
+
+		setId(R.id.evg__separator);
+	}
+
+	@Override
+	protected void onFinishInflate() {
+
+		super.onFinishInflate();
+
+		if (getId() != R.id.evg__separator) {
+			Log.e(TAG,
+					"custom separator id will be reverted to frameworks original one");
+
+			setId(R.id.evg__separator);
+		}
 	}
 
 }
