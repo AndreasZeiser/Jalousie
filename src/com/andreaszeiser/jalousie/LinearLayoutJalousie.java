@@ -263,8 +263,8 @@ public class LinearLayoutJalousie extends LinearLayout implements Jalousie {
 	}
 
 	/**
-	 * Is responseable for measuring the visible content size. If visible
-	 * content size was already measured, measuring will be skipped.
+	 * Is responsable for measuring the visible content size. If visible content
+	 * size was already measured, measuring will be skipped.
 	 * 
 	 * Takes also care of specified content gravity in {@link #mContentGravity}.
 	 * 
@@ -278,6 +278,17 @@ public class LinearLayoutJalousie extends LinearLayout implements Jalousie {
 	@Override
 	protected void onMeasure(final int widthMeasureSpec,
 			final int heightMeasureSpec) {
+
+		final int widthMode = MeasureSpec.getMode(widthMeasureSpec);
+		final int widthSize = MeasureSpec.getSize(widthMeasureSpec);
+		final int heightMode = MeasureSpec.getMode(heightMeasureSpec);
+		final int heightSize = MeasureSpec.getSize(heightMeasureSpec);
+
+		if (DEBUG) {
+			Log.v(TAG, "[onMeasure] widthMode=" + widthMode + ", heightMode="
+					+ heightMode + ", widthSize=" + widthSize + ", heighSize="
+					+ heightSize);
+		}
 
 		if (DEBUG) {
 			Log.v(TAG, "[onMeasure] mVisibleContentSizeWasMeasured="
@@ -387,9 +398,9 @@ public class LinearLayoutJalousie extends LinearLayout implements Jalousie {
 			}
 
 			if (mContentGravity == Jalousie.GRAVITY_HORIZONTAL) {
-				setMeasuredDimension(mVisibleContentSize, getMeasuredHeight());
+				setMeasuredDimension(mVisibleContentSize, heightSize);
 			} else {
-				setMeasuredDimension(getMeasuredWidth(), mVisibleContentSize);
+				setMeasuredDimension(widthSize, mVisibleContentSize);
 			}
 		} else {
 			if (DEBUG) {
@@ -398,18 +409,12 @@ public class LinearLayoutJalousie extends LinearLayout implements Jalousie {
 			}
 
 			if (mContentGravity == Jalousie.GRAVITY_HORIZONTAL) {
-				final int widthMode = MeasureSpec.getMode(widthMeasureSpec);
-				final int widthSize = MeasureSpec.getSize(widthMeasureSpec);
-
 				if (widthMode == MeasureSpec.UNSPECIFIED) {
 					super.onMeasure(widthMeasureSpec, heightMeasureSpec);
 				} else {
 					setMeasuredDimension(widthSize, getMeasuredHeight());
 				}
 			} else { // gravity=vertical
-				final int heightMode = MeasureSpec.getMode(heightMeasureSpec);
-				final int heightSize = MeasureSpec.getSize(heightMeasureSpec);
-
 				if (heightMode == MeasureSpec.UNSPECIFIED) {
 					super.onMeasure(widthMeasureSpec, heightMeasureSpec);
 				} else {
@@ -424,12 +429,21 @@ public class LinearLayoutJalousie extends LinearLayout implements Jalousie {
 		}
 	}
 
+	@Override
+	protected void onSizeChanged(int w, int h, int oldw, int oldh) {
+
+		Log.v(TAG, "[onSizeChanged] w=" + w + ", h=" + h + ", oldw=" + oldw
+				+ ", oldh=" + oldh);
+
+		super.onSizeChanged(w, h, oldw, oldh);
+	}
+
 	/**
 	 * Call this method, if this view should set its dimension to freshly
 	 * calculated {@link #mVisibleContentSize}. This is particularly helpful, if
 	 * views were added or removed before.
 	 */
-	void forceRelayout() {
+	public void forceRelayout() {
 
 		Log.v(TAG, "[forceRelayout]");
 
@@ -472,8 +486,6 @@ public class LinearLayoutJalousie extends LinearLayout implements Jalousie {
 			Bundle bundle = (Bundle) state;
 
 			mIsExpanded = bundle.getBoolean("isExpanded");
-			Log.v(TAG, "[onRestoreInstanceState] mIsExpanded=" + mIsExpanded);
-
 			super.onRestoreInstanceState(bundle.getParcelable("instanceState"));
 
 			Log.v(TAG, "[onRestoreInstanceState] mIsExpanded=" + mIsExpanded);
@@ -560,6 +572,9 @@ public class LinearLayoutJalousie extends LinearLayout implements Jalousie {
 	 */
 	@Override
 	public boolean expand() {
+
+		Log.v(TAG, "[expand]");
+
 		return expand(true);
 	}
 
@@ -573,6 +588,8 @@ public class LinearLayoutJalousie extends LinearLayout implements Jalousie {
 	 */
 	@Override
 	public boolean expand(boolean animated) {
+
+		Log.v(TAG, "[expand] animated=" + animated);
 
 		if (!mIsExpandable) {
 			// if view cannot be expanded, stop here
@@ -668,6 +685,9 @@ public class LinearLayoutJalousie extends LinearLayout implements Jalousie {
 	 */
 	@Override
 	public boolean collapse() {
+
+		Log.v(TAG, "[collapse]");
+
 		return collapse(true);
 	}
 
@@ -681,6 +701,8 @@ public class LinearLayoutJalousie extends LinearLayout implements Jalousie {
 	 */
 	@Override
 	public boolean collapse(boolean animated) {
+
+		Log.v(TAG, "[collapse] animated=" + animated);
 
 		if (!mIsExpandable) {
 			// if view cannot be expanded, stop here
