@@ -574,11 +574,6 @@ public class LinearLayoutJalousie extends LinearLayout implements Jalousie {
 	@Override
 	public boolean expand(boolean animated) {
 
-		if (!mAnimationEnabled) {
-			// TODO handle animation is disabled
-			return false;
-		}
-
 		if (!mIsExpandable) {
 			// if view cannot be expanded, stop here
 			return false;
@@ -594,6 +589,13 @@ public class LinearLayoutJalousie extends LinearLayout implements Jalousie {
 			// if view is already expanded, do not expand and return false as
 			// result
 			return false;
+		}
+
+		if (!mAnimationEnabled) {
+			// if animations are disabled for this view, ensure that expand is done not animated
+			Log.v(TAG,
+					"requested animation on expand is cancelled due to a negative animationEnabled flag. Expand is done not animated");
+			animated = false;
 		}
 
 		String propertyName;
@@ -680,11 +682,6 @@ public class LinearLayoutJalousie extends LinearLayout implements Jalousie {
 	@Override
 	public boolean collapse(boolean animated) {
 
-		if (!mAnimationEnabled) {
-			// TODO handle animation is disabled
-			return false;
-		}
-
 		if (!mIsExpandable) {
 			// if view cannot be expanded, stop here
 			return false;
@@ -700,6 +697,13 @@ public class LinearLayoutJalousie extends LinearLayout implements Jalousie {
 			// if view is already collapsed, do not collapse and return false as
 			// result
 			return false;
+		}
+
+		if (!mAnimationEnabled) {
+			// if animations are disabled for this view, ensure that collapse is done not animated
+			Log.v(TAG,
+					"requested animation on collapse is cancelled due to a negative animationEnabled flag. Collapse is done not animated");
+			animated = false;
 		}
 
 		String propertyName;
