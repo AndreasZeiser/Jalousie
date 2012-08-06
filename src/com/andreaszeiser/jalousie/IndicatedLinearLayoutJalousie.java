@@ -3,19 +3,14 @@ package com.andreaszeiser.jalousie;
 import android.content.Context;
 import android.graphics.Rect;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.LinearLayout;
 
 import com.andreaszeiser.jalousie.indicator.IndicatorElement;
+import com.andreaszeiser.jalousie.util.Log;
 
 public class IndicatedLinearLayoutJalousie extends LinearLayout {
-
-	/**
-	 * Set this variable to true, if you want to receive debug information.
-	 */
-	private static final boolean DEBUG = true;
 
 	private static final String TAG = IndicatedLinearLayoutJalousie.class
 			.getSimpleName();
@@ -51,20 +46,15 @@ public class IndicatedLinearLayoutJalousie extends LinearLayout {
 		mContentGravity = (getOrientation() == LinearLayout.HORIZONTAL) ? Jalousie.GRAVITY_HORIZONTAL
 				: Jalousie.GRAVITY_VERTICAL;
 
-		if (DEBUG) {
-			Log.v(TAG,
-					"[init] gravity="
-							+ ((mContentGravity == LinearLayout.HORIZONTAL) ? "horizontal"
-									: "vertical"));
-		}
+		Log.v(TAG, "[init] gravity="
+				+ ((mContentGravity == LinearLayout.HORIZONTAL) ? "horizontal"
+						: "vertical"));
 	}
 
 	@Override
 	protected void onFinishInflate() {
 
-		if (DEBUG) {
-			Log.v(TAG, "[onFinishInflate]");
-		}
+		Log.v(TAG, "[onFinishInflate]");
 
 		super.onFinishInflate();
 

@@ -23,13 +23,13 @@ import android.content.res.TypedArray;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.animation.Interpolator;
 import android.widget.LinearLayout;
 
+import com.andreaszeiser.jalousie.util.Log;
 import com.nineoldandroids.animation.Animator;
 import com.nineoldandroids.animation.AnimatorListenerAdapter;
 import com.nineoldandroids.animation.ObjectAnimator;
@@ -43,11 +43,6 @@ import com.nineoldandroids.animation.ObjectAnimator;
  * 
  */
 public class LinearLayoutJalousie extends LinearLayout implements Jalousie {
-
-	/**
-	 * Set this variable to true, if you want to receive debug information.
-	 */
-	private static final boolean DEBUG = true;
 
 	private static final String TAG = LinearLayoutJalousie.class
 			.getSimpleName();
@@ -239,21 +234,16 @@ public class LinearLayoutJalousie extends LinearLayout implements Jalousie {
 			}
 		}
 
-		if (DEBUG) {
-			Log.v(TAG,
-					"[init] gravity="
-							+ ((mContentGravity == LinearLayout.HORIZONTAL) ? "horizontal"
-									: "vertical"));
-		}
+		Log.v(TAG, "[init] gravity="
+				+ ((mContentGravity == LinearLayout.HORIZONTAL) ? "horizontal"
+						: "vertical"));
 
 	}
 
 	@Override
 	protected void onFinishInflate() {
 
-		if (DEBUG) {
-			Log.v(TAG, "[onFinishInflate]");
-		}
+		Log.v(TAG, "[onFinishInflate]");
 
 		super.onFinishInflate();
 
@@ -284,22 +274,16 @@ public class LinearLayoutJalousie extends LinearLayout implements Jalousie {
 		final int heightMode = MeasureSpec.getMode(heightMeasureSpec);
 		final int heightSize = MeasureSpec.getSize(heightMeasureSpec);
 
-		if (DEBUG) {
-			Log.v(TAG, "[onMeasure] widthMode=" + widthMode + ", heightMode="
-					+ heightMode + ", widthSize=" + widthSize + ", heighSize="
-					+ heightSize);
-		}
+		Log.v(TAG, "[onMeasure] widthMode=" + widthMode + ", heightMode="
+				+ heightMode + ", widthSize=" + widthSize + ", heighSize="
+				+ heightSize);
 
-		if (DEBUG) {
-			Log.v(TAG, "[onMeasure] mVisibleContentSizeWasMeasured="
-					+ mVisibleContentSizeWasMeasured);
-		}
+		Log.v(TAG, "[onMeasure] mVisibleContentSizeWasMeasured="
+				+ mVisibleContentSizeWasMeasured);
 
 		if (!mVisibleContentSizeWasMeasured) {
 			if (mContentGravity == Jalousie.GRAVITY_HORIZONTAL) {
-				if (DEBUG) {
-					Log.v(TAG, "[onMeasure] gravity=horizontal");
-				}
+				Log.v(TAG, "[onMeasure] gravity=horizontal");
 
 				// measure the maximum needed height for this view with
 				// MeasureSpec.Unspecified
@@ -329,9 +313,7 @@ public class LinearLayoutJalousie extends LinearLayout implements Jalousie {
 					mVisibleContentSize += view.getMeasuredWidth();
 				}
 			} else {
-				if (DEBUG) {
-					Log.v(TAG, "[onMeasure] gravity=vertical");
-				}
+				Log.v(TAG, "[onMeasure] gravity=vertical");
 
 				// measure the maximum needed height for this view with
 				// MeasureSpec.Unspecified
@@ -362,18 +344,14 @@ public class LinearLayoutJalousie extends LinearLayout implements Jalousie {
 				}
 			}
 
-			if (DEBUG) {
-				Log.v(TAG, "[onMeasure] original size=" + mOriginalSize);
-				Log.v(TAG, "[onMeasure] visible content size="
-						+ mVisibleContentSize);
-			}
+			Log.v(TAG, "[onMeasure] original size=" + mOriginalSize);
+			Log.v(TAG, "[onMeasure] visible content size="
+					+ mVisibleContentSize);
 
 			if (mOriginalSize > mVisibleContentSize) {
 				// ViewGroup is expandable
 				mIsExpandable = true;
-				if (DEBUG) {
-					Log.v(TAG, "[onMeasure] is expandable=true");
-				}
+				Log.v(TAG, "[onMeasure] is expandable=true");
 			}
 
 			mVisibleContentSizeWasMeasured = true;
@@ -393,9 +371,7 @@ public class LinearLayoutJalousie extends LinearLayout implements Jalousie {
 				setMeasuredDimension(getMeasuredWidth(), mOriginalSize);
 			}
 		} else if (!mIsAnimating && !mIsExpanded && !mIsAlwaysExpanded) {
-			if (DEBUG) {
-				Log.v(TAG, "[onMeasure] set self measured dimension");
-			}
+			Log.v(TAG, "[onMeasure] set self measured dimension");
 
 			if (mContentGravity == Jalousie.GRAVITY_HORIZONTAL) {
 				setMeasuredDimension(mVisibleContentSize, heightSize);
@@ -403,10 +379,7 @@ public class LinearLayoutJalousie extends LinearLayout implements Jalousie {
 				setMeasuredDimension(widthSize, mVisibleContentSize);
 			}
 		} else {
-			if (DEBUG) {
-				Log.v(TAG,
-						"[onMeasure] set Android framework measured dimension");
-			}
+			Log.v(TAG, "[onMeasure] set Android framework measured dimension");
 
 			if (mContentGravity == Jalousie.GRAVITY_HORIZONTAL) {
 				if (widthMode == MeasureSpec.UNSPECIFIED) {
@@ -423,10 +396,8 @@ public class LinearLayoutJalousie extends LinearLayout implements Jalousie {
 			}
 		}
 
-		if (DEBUG) {
-			Log.v(TAG, "[onMeasure] measured width=" + getMeasuredWidth());
-			Log.v(TAG, "[onMeasure] measured height=" + getMeasuredHeight());
-		}
+		Log.v(TAG, "[onMeasure] measured width=" + getMeasuredWidth());
+		Log.v(TAG, "[onMeasure] measured height=" + getMeasuredHeight());
 	}
 
 	@Override

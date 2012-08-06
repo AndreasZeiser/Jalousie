@@ -19,8 +19,9 @@ package com.andreaszeiser.jalousie;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.widget.TextView;
+
+import com.andreaszeiser.jalousie.util.Log;
 
 /**
  * A TextView which implements the IndicatorElement interface for indicating the

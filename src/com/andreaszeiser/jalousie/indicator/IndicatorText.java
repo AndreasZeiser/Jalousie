@@ -16,15 +16,14 @@
 
 package com.andreaszeiser.jalousie.indicator;
 
-import com.andreaszeiser.jalousie.R;
-import com.andreaszeiser.jalousie.R.styleable;
-
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
+
+import com.andreaszeiser.jalousie.R;
+import com.andreaszeiser.jalousie.util.Log;
 
 /**
  * A TextView which implements the IndicatorElement interface for indicating the

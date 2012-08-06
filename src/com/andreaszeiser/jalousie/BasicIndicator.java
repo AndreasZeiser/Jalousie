@@ -18,9 +18,10 @@ package com.andreaszeiser.jalousie;
 
 import android.content.Context;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
+
+import com.andreaszeiser.jalousie.util.Log;
 
 /**
  * Wrapper class for a basic indicator used in IndicatedLinearLayoutJalousie,
@@ -34,11 +35,6 @@ import android.widget.LinearLayout;
  * 
  */
 public class BasicIndicator extends LinearLayout implements IndicatorElement {
-
-	/**
-	 * Set this variable to true, if you want to receive debug information.
-	 */
-	private static final boolean DEBUG = true;
 
 	private static final String TAG = IndicatedLinearLayoutJalousie.class
 			.getSimpleName();
@@ -83,10 +79,7 @@ public class BasicIndicator extends LinearLayout implements IndicatorElement {
 
 	@Override
 	protected void onFinishInflate() {
-
-		if (DEBUG) {
-			Log.v(TAG, "[onFinishInflate]");
-		}
+		Log.v(TAG, "[onFinishInflate]");
 
 		super.onFinishInflate();
 
