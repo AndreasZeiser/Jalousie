@@ -28,21 +28,18 @@ public class IndicatedLinearLayoutJalousie extends LinearLayout {
 	private IndicatorElement mIndicator;
 
 	public IndicatedLinearLayoutJalousie(Context context, AttributeSet attrs) {
-
 		super(context, attrs);
 
 		init();
 	}
 
 	public IndicatedLinearLayoutJalousie(Context context) {
-
 		super(context);
 
 		init();
 	}
 
 	private void init() {
-
 		mContentGravity = (getOrientation() == LinearLayout.HORIZONTAL) ? Jalousie.GRAVITY_HORIZONTAL
 				: Jalousie.GRAVITY_VERTICAL;
 
@@ -53,7 +50,6 @@ public class IndicatedLinearLayoutJalousie extends LinearLayout {
 
 	@Override
 	protected void onFinishInflate() {
-
 		Log.v(TAG, "[onFinishInflate]");
 
 		super.onFinishInflate();
@@ -74,7 +70,6 @@ public class IndicatedLinearLayoutJalousie extends LinearLayout {
 
 	@Override
 	protected void onSizeChanged(int w, int h, int oldw, int oldh) {
-
 		Log.v(TAG, "[onSizeChanged] w=" + w + ", h=" + h + ", oldw=" + oldw
 				+ ", oldh=" + oldh);
 
@@ -92,9 +87,6 @@ public class IndicatedLinearLayoutJalousie extends LinearLayout {
 					mLinearLayoutJalousie.toggle();
 				}
 			}
-			break;
-
-		default:
 			break;
 		}
 		return super.onInterceptTouchEvent(ev);

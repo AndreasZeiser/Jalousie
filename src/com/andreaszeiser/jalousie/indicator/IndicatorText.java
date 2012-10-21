@@ -60,21 +60,18 @@ public class IndicatorText extends TextView implements IndicatorElement {
 	private String mCollapseIndicatorText;
 
 	public IndicatorText(Context context, AttributeSet attrs, int defStyle) {
-
 		super(context, attrs, defStyle);
 
 		init(context, attrs);
 	}
 
 	public IndicatorText(Context context, AttributeSet attrs) {
-
 		super(context, attrs);
 
 		init(context, attrs);
 	}
 
 	public IndicatorText(Context context) {
-
 		super(context);
 
 		init(context, null);
@@ -84,7 +81,6 @@ public class IndicatorText extends TextView implements IndicatorElement {
 	 * Should only be called from constructor.
 	 */
 	private void init(final Context context, final AttributeSet attrs) {
-
 		if (attrs != null) {
 			TypedArray a = context.getTheme().obtainStyledAttributes(attrs,
 					R.styleable.Indicator, 0, 0);
@@ -115,20 +111,17 @@ public class IndicatorText extends TextView implements IndicatorElement {
 	}
 
 	private void setDefaults() {
-
 		mExpandIndicatorText = "";
 		mCollapseIndicatorText = "";
 	}
 
 	@Override
 	public int getState() {
-
 		return mState;
 	}
 
 	@Override
 	public void setState(int indicatorState) {
-
 		switch (indicatorState) {
 		case IndicatorElement.STATE_COLLAPSED:
 
@@ -152,18 +145,15 @@ public class IndicatorText extends TextView implements IndicatorElement {
 
 	@Override
 	public void show() {
-
 		setVisibility(View.VISIBLE);
 	}
 
 	@Override
 	public void hide() {
-
 		setVisibility(View.GONE);
 	}
 
 	public void setExpandIndicatorText(final String expandIndicatorText) {
-
 		mExpandIndicatorText = expandIndicatorText;
 
 		if (mState == IndicatorElement.STATE_EXPANDED) {
@@ -172,7 +162,6 @@ public class IndicatorText extends TextView implements IndicatorElement {
 	}
 
 	public void setCollapseIndicatorText(final String collapseIndicatorText) {
-
 		mCollapseIndicatorText = collapseIndicatorText;
 
 		if (mState == IndicatorElement.STATE_COLLAPSED) {

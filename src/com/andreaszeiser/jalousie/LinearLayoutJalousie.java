@@ -213,7 +213,6 @@ public class LinearLayoutJalousie extends LinearLayout implements Jalousie {
 	 * Should only be called from constructor.
 	 */
 	private void init(final Context context, final AttributeSet attrs) {
-
 		mJalousieListeners = new ArrayList<JalousieListener>();
 
 		mContentGravity = (getOrientation() == LinearLayout.HORIZONTAL) ? Jalousie.GRAVITY_HORIZONTAL
@@ -242,7 +241,6 @@ public class LinearLayoutJalousie extends LinearLayout implements Jalousie {
 
 	@Override
 	protected void onFinishInflate() {
-
 		Log.v(TAG, "[onFinishInflate]");
 
 		super.onFinishInflate();
@@ -268,7 +266,6 @@ public class LinearLayoutJalousie extends LinearLayout implements Jalousie {
 	@Override
 	protected void onMeasure(final int widthMeasureSpec,
 			final int heightMeasureSpec) {
-
 		final int widthMode = MeasureSpec.getMode(widthMeasureSpec);
 		final int widthSize = MeasureSpec.getSize(widthMeasureSpec);
 		final int heightMode = MeasureSpec.getMode(heightMeasureSpec);
@@ -402,7 +399,6 @@ public class LinearLayoutJalousie extends LinearLayout implements Jalousie {
 
 	@Override
 	protected void onSizeChanged(int w, int h, int oldw, int oldh) {
-
 		Log.v(TAG, "[onSizeChanged] w=" + w + ", h=" + h + ", oldw=" + oldw
 				+ ", oldh=" + oldh);
 
@@ -415,7 +411,6 @@ public class LinearLayoutJalousie extends LinearLayout implements Jalousie {
 	 * views were added or removed before.
 	 */
 	public void forceRelayout() {
-
 		Log.v(TAG, "[forceRelayout]");
 
 		mVisibleContentSizeWasMeasured = false;
@@ -424,7 +419,6 @@ public class LinearLayoutJalousie extends LinearLayout implements Jalousie {
 
 	@Override
 	public void requestLayout() {
-
 		Log.v(TAG, "[requestLayout]");
 
 		mVisibleContentSizeWasMeasured = false;
@@ -434,7 +428,6 @@ public class LinearLayoutJalousie extends LinearLayout implements Jalousie {
 
 	@Override
 	protected Parcelable onSaveInstanceState() {
-
 		Log.v(TAG, "[onSaveInstanceState]");
 
 		Bundle bundle = new Bundle();
@@ -450,7 +443,6 @@ public class LinearLayoutJalousie extends LinearLayout implements Jalousie {
 
 	@Override
 	protected void onRestoreInstanceState(Parcelable state) {
-
 		Log.v(TAG, "[onRestoreInstanceState] state=" + state);
 
 		if (state instanceof Bundle) {
@@ -469,13 +461,11 @@ public class LinearLayoutJalousie extends LinearLayout implements Jalousie {
 
 	@Override
 	public int getContentGravity() {
-
 		return mContentGravity;
 	}
 
 	@Override
 	public int getCurrentWidth() {
-
 		ViewGroup.LayoutParams params = getLayoutParams();
 
 		if (params == null) {
@@ -488,7 +478,6 @@ public class LinearLayoutJalousie extends LinearLayout implements Jalousie {
 
 	@Override
 	public void setCurrentWidth(int currentWidth) {
-
 		if (mContentGravity != Jalousie.GRAVITY_HORIZONTAL) {
 			// if content gravity is not horizontal, ignore new width
 			return;
@@ -504,7 +493,6 @@ public class LinearLayoutJalousie extends LinearLayout implements Jalousie {
 
 	@Override
 	public int getCurrentHeight() {
-
 		ViewGroup.LayoutParams params = getLayoutParams();
 
 		if (params == null) {
@@ -517,7 +505,6 @@ public class LinearLayoutJalousie extends LinearLayout implements Jalousie {
 
 	@Override
 	public void setCurrentHeight(final int currentHeight) {
-
 		if (mContentGravity != Jalousie.GRAVITY_VERTICAL) {
 			// if content gravity is not vertical, ignore new height
 			return;
@@ -543,7 +530,6 @@ public class LinearLayoutJalousie extends LinearLayout implements Jalousie {
 	 */
 	@Override
 	public boolean expand() {
-
 		Log.v(TAG, "[expand]");
 
 		return expand(true);
@@ -559,7 +545,6 @@ public class LinearLayoutJalousie extends LinearLayout implements Jalousie {
 	 */
 	@Override
 	public boolean expand(boolean animated) {
-
 		Log.v(TAG, "[expand] animated=" + animated);
 
 		if (!mIsExpandable) {
@@ -656,7 +641,6 @@ public class LinearLayoutJalousie extends LinearLayout implements Jalousie {
 	 */
 	@Override
 	public boolean collapse() {
-
 		Log.v(TAG, "[collapse]");
 
 		return collapse(true);
@@ -672,7 +656,6 @@ public class LinearLayoutJalousie extends LinearLayout implements Jalousie {
 	 */
 	@Override
 	public boolean collapse(boolean animated) {
-
 		Log.v(TAG, "[collapse] animated=" + animated);
 
 		if (!mIsExpandable) {
@@ -767,13 +750,11 @@ public class LinearLayoutJalousie extends LinearLayout implements Jalousie {
 	 */
 	@Override
 	public boolean toggle() {
-
 		return toggle(true);
 	}
 
 	@Override
 	public boolean toggle(boolean animated) {
-
 		if (mIsAlwaysExpanded) {
 			return false;
 		}
@@ -788,25 +769,21 @@ public class LinearLayoutJalousie extends LinearLayout implements Jalousie {
 
 	@Override
 	public boolean isExpanded() {
-
 		return mIsExpanded;
 	}
 
 	@Override
 	public boolean isCollapsed() {
-
 		return !mIsExpanded;
 	}
 
 	@Override
 	public boolean isExpandable() {
-
 		return mIsExpandable;
 	}
 
 	@Override
 	public void setIsAlwaysExpanded(final boolean alwaysExpanded) {
-
 		mIsAlwaysExpanded = alwaysExpanded;
 
 		if (mIsAlwaysExpanded && !mIsExpanded) {
@@ -822,19 +799,16 @@ public class LinearLayoutJalousie extends LinearLayout implements Jalousie {
 
 	@Override
 	public void setAnimationEnabled(final boolean animationEnabled) {
-
 		mAnimationEnabled = animationEnabled;
 	}
 
 	@Override
 	public void setAnimationDuration(final int animationDuration) {
-
 		mAnimationDuration = animationDuration;
 	}
 
 	@Override
 	public void setInterpolator(final Interpolator interpolator) {
-
 		mInterpolator = interpolator;
 	}
 
@@ -873,7 +847,6 @@ public class LinearLayoutJalousie extends LinearLayout implements Jalousie {
 	 * @param view
 	 */
 	public void prependViewBeforeSeparator(final View view) {
-
 		Log.v(TAG, "[prependViewBeforeSeparator] view=" + view);
 
 		addView(view, 0);
@@ -888,7 +861,6 @@ public class LinearLayoutJalousie extends LinearLayout implements Jalousie {
 	 * @param view
 	 */
 	public void appendViewBeforeSeparator(final View view) {
-
 		final int separatorIndex = indexOfChild(mSeparator);
 
 		Log.v(TAG, "[appendViewBeforeSeparator] view=" + view
@@ -908,7 +880,6 @@ public class LinearLayoutJalousie extends LinearLayout implements Jalousie {
 	 * @param view
 	 */
 	public void prependViewAfterSeparator(final View view) {
-
 		final int separatorIndex = indexOfChild(mSeparator);
 
 		Log.v(TAG, "[prependViewAfterSeparator] view=" + view
@@ -928,7 +899,6 @@ public class LinearLayoutJalousie extends LinearLayout implements Jalousie {
 	 * @param view
 	 */
 	public void appendViewAfterSeparator(final View view) {
-
 		Log.v(TAG, "[appendViewAfterSeparator] view=" + view);
 
 		addView(view, getChildCount());
@@ -941,7 +911,6 @@ public class LinearLayoutJalousie extends LinearLayout implements Jalousie {
 	 * Removes all views which have an index < separator's index.
 	 */
 	public void removeViewsBeforeSeparator() {
-
 		final int separatorIndex = indexOfChild(mSeparator);
 
 		Log.v(TAG, "[removeViewsBeforeSeparator] separatorIndex="
@@ -958,7 +927,6 @@ public class LinearLayoutJalousie extends LinearLayout implements Jalousie {
 	 * Removes all views which have an index > separator's index.
 	 */
 	public void removeViewsAfterSeparator() {
-
 		final int separatorIndex = indexOfChild(mSeparator);
 		final int removeChildrenCount = getChildCount() - 1 - separatorIndex;
 

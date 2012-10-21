@@ -15,27 +15,23 @@ public class LinearLayoutIndicator extends LinearLayout implements
 	private ArrayList<IndicatorElement> mIndicatorElements = new ArrayList<IndicatorElement>();
 
 	public LinearLayoutIndicator(Context context, AttributeSet attrs) {
-
 		super(context, attrs);
 
 		init();
 	}
 
 	public LinearLayoutIndicator(Context context) {
-
 		super(context);
 
 		init();
 	}
 
 	private void init() {
-
 		setClickable(true);
 	}
 
 	@Override
 	protected void onFinishInflate() {
-
 		super.onFinishInflate();
 
 		final int childCount = getChildCount();
@@ -50,13 +46,11 @@ public class LinearLayoutIndicator extends LinearLayout implements
 
 	@Override
 	public int getState() {
-
 		return mState;
 	}
 
 	@Override
 	public void setState(int indicatorState) {
-
 		switch (indicatorState) {
 		case IndicatorElement.STATE_COLLAPSED: // valid states
 		case IndicatorElement.STATE_EXPANDED:
@@ -73,7 +67,7 @@ public class LinearLayoutIndicator extends LinearLayout implements
 			break;
 		}
 	}
-	
+
 	@Override
 	public void show() {
 		setVisibility(View.VISIBLE);

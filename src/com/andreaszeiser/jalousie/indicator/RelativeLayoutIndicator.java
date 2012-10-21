@@ -43,36 +43,31 @@ public class RelativeLayoutIndicator extends RelativeLayout implements
 
 	private ArrayList<IndicatorElement> mIndicatorElements = new ArrayList<IndicatorElement>();
 
-	public RelativeLayoutIndicator(Context context,
-			AttributeSet attrs, int defStyle) {
-
+	public RelativeLayoutIndicator(Context context, AttributeSet attrs,
+			int defStyle) {
 		super(context, attrs, defStyle);
 
 		init();
 	}
 
 	public RelativeLayoutIndicator(Context context, AttributeSet attrs) {
-
 		super(context, attrs);
 
 		init();
 	}
 
 	public RelativeLayoutIndicator(Context context) {
-
 		super(context);
 
 		init();
 	}
 
 	private void init() {
-
 		setClickable(true);
 	}
 
 	@Override
 	protected void onFinishInflate() {
-
 		super.onFinishInflate();
 
 		final int childCount = getChildCount();
@@ -87,13 +82,11 @@ public class RelativeLayoutIndicator extends RelativeLayout implements
 
 	@Override
 	public int getState() {
-
 		return mState;
 	}
 
 	@Override
 	public void setState(int indicatorState) {
-
 		switch (indicatorState) {
 		case IndicatorElement.STATE_COLLAPSED: // valid states
 		case IndicatorElement.STATE_EXPANDED:
@@ -110,7 +103,7 @@ public class RelativeLayoutIndicator extends RelativeLayout implements
 			break;
 		}
 	}
-	
+
 	@Override
 	public void show() {
 		setVisibility(View.VISIBLE);

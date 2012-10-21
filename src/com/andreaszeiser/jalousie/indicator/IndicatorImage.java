@@ -60,21 +60,18 @@ public class IndicatorImage extends ImageView implements IndicatorElement {
 	private Drawable mCollapseIndicator;
 
 	public IndicatorImage(Context context, AttributeSet attrs, int defStyle) {
-
 		super(context, attrs, defStyle);
 
 		init(context, attrs);
 	}
 
 	public IndicatorImage(Context context, AttributeSet attrs) {
-
 		super(context, attrs);
 
 		init(context, attrs);
 	}
 
 	public IndicatorImage(Context context) {
-
 		super(context);
 
 		init(context, null);
@@ -84,7 +81,6 @@ public class IndicatorImage extends ImageView implements IndicatorElement {
 	 * Should only be called from constructor.
 	 */
 	private void init(final Context context, final AttributeSet attrs) {
-
 		if (attrs != null) {
 			TypedArray a = context.getTheme().obtainStyledAttributes(attrs,
 					R.styleable.Indicator, 0, 0);
@@ -115,14 +111,12 @@ public class IndicatorImage extends ImageView implements IndicatorElement {
 	}
 
 	private void setDefaults() {
-
 		mExpandIndicator = getResources().getDrawable(R.drawable.ic_down);
 		mCollapseIndicator = getResources().getDrawable(R.drawable.ic_up);
 	}
 
 	@Override
 	public int getState() {
-
 		return mState;
 	}
 
@@ -159,7 +153,6 @@ public class IndicatorImage extends ImageView implements IndicatorElement {
 	}
 
 	public void setExpandIndicator(final Drawable expandIndicator) {
-
 		mExpandIndicator = expandIndicator;
 
 		if (mState == IndicatorElement.STATE_EXPANDED) {
@@ -168,7 +161,6 @@ public class IndicatorImage extends ImageView implements IndicatorElement {
 	}
 
 	public void setCollapseIndicator(final Drawable collapseIndicator) {
-
 		mCollapseIndicator = collapseIndicator;
 
 		if (mState == IndicatorElement.STATE_COLLAPSED) {

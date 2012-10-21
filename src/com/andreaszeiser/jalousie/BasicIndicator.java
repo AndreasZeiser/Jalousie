@@ -21,6 +21,9 @@ import android.util.AttributeSet;
 import android.view.View;
 import android.widget.LinearLayout;
 
+import com.andreaszeiser.jalousie.indicator.IndicatorElement;
+import com.andreaszeiser.jalousie.indicator.IndicatorImage;
+import com.andreaszeiser.jalousie.indicator.IndicatorText;
 import com.andreaszeiser.jalousie.util.Log;
 
 /**
@@ -56,14 +59,12 @@ public class BasicIndicator extends LinearLayout implements IndicatorElement {
 	private IndicatorText mIndicatorText;
 
 	public BasicIndicator(Context context, AttributeSet attrs) {
-
 		super(context, attrs);
 
 		init(context, attrs);
 	}
 
 	public BasicIndicator(Context context) {
-
 		super(context);
 
 		init(context, null);
@@ -73,7 +74,6 @@ public class BasicIndicator extends LinearLayout implements IndicatorElement {
 	 * Should only be called from constructor.
 	 */
 	private void init(final Context context, final AttributeSet attrs) {
-
 		setClickable(true);
 	}
 
@@ -100,13 +100,11 @@ public class BasicIndicator extends LinearLayout implements IndicatorElement {
 
 	@Override
 	public int getState() {
-
 		return mState;
 	}
 
 	@Override
 	public void setState(int indicatorState) {
-
 		switch (indicatorState) {
 		case IndicatorElement.STATE_COLLAPSED: // valid states
 		case IndicatorElement.STATE_EXPANDED:
@@ -126,6 +124,16 @@ public class BasicIndicator extends LinearLayout implements IndicatorElement {
 		default: // do nothing
 			break;
 		}
+	}
+
+	@Override
+	public void show() {
+		setVisibility(View.VISIBLE);
+	}
+
+	@Override
+	public void hide() {
+		setVisibility(View.GONE);
 	}
 
 }

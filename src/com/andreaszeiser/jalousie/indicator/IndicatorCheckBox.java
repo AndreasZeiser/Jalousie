@@ -53,7 +53,6 @@ public class IndicatorCheckBox extends CheckBox implements IndicatorElement {
 	 * Should only be called from constructor.
 	 */
 	private void init(final Context context, final AttributeSet attrs) {
-
 		if (attrs != null) {
 			TypedArray a = context.getTheme().obtainStyledAttributes(attrs,
 					R.styleable.Indicator, 0, 0);
@@ -80,13 +79,11 @@ public class IndicatorCheckBox extends CheckBox implements IndicatorElement {
 
 	@Override
 	public int getState() {
-
 		return mState;
 	}
 
 	@Override
 	public void setState(int indicatorState) {
-
 		switch (indicatorState) {
 		case IndicatorElement.STATE_COLLAPSED:
 
@@ -110,13 +107,11 @@ public class IndicatorCheckBox extends CheckBox implements IndicatorElement {
 
 	@Override
 	public void show() {
-
 		setVisibility(View.VISIBLE);
 	}
 
 	@Override
 	public void hide() {
-
 		setVisibility(View.GONE);
 	}
 

@@ -34,28 +34,24 @@ public final class Separator extends View {
 	private static final String TAG = Separator.class.getSimpleName();
 
 	public Separator(Context context, AttributeSet attrs, int defStyle) {
-
 		super(context, attrs, defStyle);
 
 		init();
 	}
 
 	public Separator(Context context, AttributeSet attrs) {
-
 		super(context, attrs);
 
 		init();
 	}
 
 	public Separator(Context context) {
-
 		super(context);
 
 		init();
 	}
 
 	private void init() {
-
 		Log.v(TAG, "[init]");
 
 		setId(R.id.evg__separator);
@@ -63,7 +59,6 @@ public final class Separator extends View {
 
 	@Override
 	protected void onFinishInflate() {
-
 		super.onFinishInflate();
 
 		if (getId() != R.id.evg__separator) {
