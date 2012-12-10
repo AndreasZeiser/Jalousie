@@ -111,16 +111,6 @@ public class LinearLayoutJalousie extends LinearLayout implements Jalousie {
 	private int mVisibleContentSize;
 
 	/**
-	 * Indicates, whether the visible content height was already measured or
-	 * not.
-	 * 
-	 * If false, calculation will be done in the next run of onMeasure()
-	 * 
-	 * @see #onMeasure(int, int)
-	 */
-	private boolean mVisibleContentSizeWasMeasured = false;
-
-	/**
 	 * If this is set to true, current measured content size
 	 * {@link #mVisibleContentSize} will be set as dimension for this view in
 	 * its {@link #onMeasure(int, int)} method.
@@ -280,70 +270,65 @@ public class LinearLayoutJalousie extends LinearLayout implements Jalousie {
 				+ heightMode + ", widthSize=" + widthSize + ", heighSize="
 				+ heightSize);
 
-		Log.v(TAG, "[onMeasure] mVisibleContentSizeWasMeasured="
-				+ mVisibleContentSizeWasMeasured);
+		if (mContentGravity == Jalousie.GRAVITY_HORIZONTAL) {
+			Log.v(TAG, "[onMeasure] gravity=horizontal");
 
-		if (!mVisibleContentSizeWasMeasured) {
-			if (mContentGravity == Jalousie.GRAVITY_HORIZONTAL) {
-				Log.v(TAG, "[onMeasure] gravity=horizontal");
+			// measure the maximum needed height for this view with
+			// MeasureSpec.Unspecified
+			// the framework itself will store the height in measured height
+			// through a call of setMeasuredHeight()
+			super.onMeasure(MeasureSpec.UNSPECIFIED, heightMeasureSpec);
 
-				// measure the maximum needed height for this view with
-				// MeasureSpec.Unspecified
-				// the framework itself will store the height in measured height
-				// through a call of setMeasuredHeight()
-				super.onMeasure(MeasureSpec.UNSPECIFIED, heightMeasureSpec);
+			// get the measured width
+			mOriginalSize = getMeasuredWidth();
 
-				// get the measured width
-				mOriginalSize = getMeasuredWidth();
-
-				// calculate the height of visible content
-				// this is calculated by cumulating the height of all views
-				// which are positioned before the separator view
-				// calling of getTop() is not an option, because it will slow
-				// down the animation :/
-				mVisibleContentSize = 0;
-				int childCount = getChildCount();
-				View view = null;
-				for (int i = 0; i < childCount; i++) {
-					view = getChildAt(i);
-					// if the separator is found, stop cumulating here
-					// if there is no separator in the ViewGroup, the visible
-					// content height will be calculated to ViewGroup's height.
-					if (view instanceof Separator) {
-						break;
-					}
-					mVisibleContentSize += view.getMeasuredWidth();
+			// calculate the height of visible content
+			// this is calculated by cumulating the height of all views
+			// which are positioned before the separator view
+			// calling of getTop() is not an option, because it will slow
+			// down the animation :/
+			mVisibleContentSize = 0;
+			int childCount = getChildCount();
+			View view = null;
+			for (int i = 0; i < childCount; i++) {
+				view = getChildAt(i);
+				// if the separator is found, stop cumulating here
+				// if there is no separator in the ViewGroup, the visible
+				// content height will be calculated to ViewGroup's height.
+				if (view instanceof Separator) {
+					break;
 				}
-			} else {
-				Log.v(TAG, "[onMeasure] gravity=vertical");
+				mVisibleContentSize += view.getMeasuredWidth();
+			}
+		} else {
+			Log.v(TAG, "[onMeasure] gravity=vertical");
 
-				// measure the maximum needed height for this view with
-				// MeasureSpec.Unspecified
-				// the framework itself will store the height in measured height
-				// through a call of setMeasuredHeight()
-				super.onMeasure(widthMeasureSpec, MeasureSpec.UNSPECIFIED);
+			// measure the maximum needed height for this view with
+			// MeasureSpec.Unspecified
+			// the framework itself will store the height in measured height
+			// through a call of setMeasuredHeight()
+			super.onMeasure(widthMeasureSpec, MeasureSpec.UNSPECIFIED);
 
-				// get the measured height
-				mOriginalSize = getMeasuredHeight();
+			// get the measured height
+			mOriginalSize = getMeasuredHeight();
 
-				// calculate the height of visible content
-				// this is calculated by cumulating the height of all views
-				// which are positioned before the separator view
-				// calling of getTop() is not an option, because it will slow
-				// down the animation :/
-				mVisibleContentSize = 0;
-				int childCount = getChildCount();
-				View view = null;
-				for (int i = 0; i < childCount; i++) {
-					view = getChildAt(i);
-					// if the separator is found, stop cumulating here
-					// if there is no separator in the ViewGroup, the visible
-					// content height will be calculated to ViewGroup's height.
-					if (view instanceof Separator) {
-						break;
-					}
-					mVisibleContentSize += view.getMeasuredHeight();
+			// calculate the height of visible content
+			// this is calculated by cumulating the height of all views
+			// which are positioned before the separator view
+			// calling of getTop() is not an option, because it will slow
+			// down the animation :/
+			mVisibleContentSize = 0;
+			int childCount = getChildCount();
+			View view = null;
+			for (int i = 0; i < childCount; i++) {
+				view = getChildAt(i);
+				// if the separator is found, stop cumulating here
+				// if there is no separator in the ViewGroup, the visible
+				// content height will be calculated to ViewGroup's height.
+				if (view instanceof Separator) {
+					break;
 				}
+				mVisibleContentSize += view.getMeasuredHeight();
 			}
 
 			Log.v(TAG, "[onMeasure] original size=" + mOriginalSize);
@@ -355,8 +340,6 @@ public class LinearLayoutJalousie extends LinearLayout implements Jalousie {
 				mIsExpandable = true;
 				Log.v(TAG, "[onMeasure] is expandable=true");
 			}
-
-			mVisibleContentSizeWasMeasured = true;
 		}
 
 		Log.v(TAG, "[onMeasure] mForceRelayout=" + mForceRelayout);
@@ -418,17 +401,7 @@ public class LinearLayoutJalousie extends LinearLayout implements Jalousie {
 	public void forceRelayout() {
 		Log.v(TAG, "[forceRelayout]");
 
-		mVisibleContentSizeWasMeasured = false;
 		mForceRelayout = true;
-	}
-
-	@Override
-	public void requestLayout() {
-		Log.v(TAG, "[requestLayout]");
-
-		mVisibleContentSizeWasMeasured = false;
-
-		super.requestLayout();
 	}
 
 	@Override
