@@ -84,7 +84,7 @@ public class IndicatedLinearLayoutJalousie extends LinearLayout {
 				final Rect outRect = new Rect();
 				mLinearLayoutJalousie.getHitRect(outRect);
 				if (!outRect.contains((int) ev.getX(), (int) ev.getY())) {
-					mLinearLayoutJalousie.toggle();
+					mLinearLayoutJalousie.toggle(true, true);
 				}
 			}
 			break;
@@ -93,6 +93,11 @@ public class IndicatedLinearLayoutJalousie extends LinearLayout {
 	}
 
 	private JalousieListener mJalousieListener = new JalousieListener() {
+
+		@Override
+		public boolean onBeforeActionStart(int action, boolean fromTouch) {
+			return false;
+		}
 
 		@Override
 		public void onActionStart(final int action, final int animationDuration) {

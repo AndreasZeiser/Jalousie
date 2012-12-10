@@ -160,6 +160,14 @@ public interface Jalousie {
 	public void setIsAlwaysExpanded(final boolean alwaysExpanded);
 
 	/**
+	 * Make this not expandable.
+	 * 
+	 * @param alwaysCollapsed
+	 *            true, if view should not be able to expand
+	 */
+	public void setIsAlwaysCollapsed(final boolean alwaysCollapsed);
+
+	/**
 	 * Returns the gravity of the content. Valid values are
 	 * {@link #GRAVITY_HORIZONTAL} or {@link #GRAVITY_VERTICAL}.
 	 * 

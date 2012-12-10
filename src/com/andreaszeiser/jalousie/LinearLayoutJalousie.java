@@ -150,6 +150,11 @@ public class LinearLayoutJalousie extends LinearLayout implements Jalousie {
 	private boolean mIsAlwaysExpanded = false;
 
 	/**
+	 * If view is always closed, this variable has a value of true.
+	 */
+	private boolean mIsAlwaysCollapsed = false;
+
+	/**
 	 * Enables animation during expanding / collapsing of view.
 	 * 
 	 * @see #setAnimationEnabled(boolean)
@@ -532,13 +537,11 @@ public class LinearLayoutJalousie extends LinearLayout implements Jalousie {
 	public boolean expand() {
 		Log.v(TAG, "[expand]");
 
-		return expand(true);
+		return expand(true, false);
 	}
 
 	/**
-	 * Expands the view, either animated or not. Takes care of ongoing
-	 * animation, content gravity and expand restriction, e.g.
-	 * {@link #mIsAlwaysExpanded}.
+	 * Expands the view, either animated or not.
 	 * 
 	 * @see #collapse()
 	 * @see #toggle()
@@ -546,6 +549,21 @@ public class LinearLayoutJalousie extends LinearLayout implements Jalousie {
 	@Override
 	public boolean expand(boolean animated) {
 		Log.v(TAG, "[expand] animated=" + animated);
+
+		return expand(animated, false);
+	}
+
+	/**
+	 * Expands the view, either animated or not. Takes care of ongoing
+	 * animation, content gravity and expand restriction, e.g.
+	 * {@link #mIsAlwaysExpanded}.
+	 * 
+	 * @param animated
+	 * @param fromTouch
+	 * @return
+	 */
+	private boolean expand(boolean animated, final boolean fromTouch) {
+		Log.v(TAG, "[expand] animated=" + animated + ", fromTouch=" + fromTouch);
 
 		if (!mIsExpandable) {
 			// if view cannot be expanded, stop here
@@ -569,6 +587,13 @@ public class LinearLayoutJalousie extends LinearLayout implements Jalousie {
 			Log.v(TAG,
 					"requested animation on expand is cancelled due to a negative animationEnabled flag. Expand is done not animated");
 			animated = false;
+		}
+
+		for (JalousieListener listener : mJalousieListeners) {
+			if (listener.onBeforeActionStart(JalousieListener.ACTION_EXPAND,
+					fromTouch)) {
+				return false;
+			}
 		}
 
 		String propertyName;
@@ -643,7 +668,18 @@ public class LinearLayoutJalousie extends LinearLayout implements Jalousie {
 	public boolean collapse() {
 		Log.v(TAG, "[collapse]");
 
-		return collapse(true);
+		return collapse(true, false);
+	}
+
+	/**
+	 * Collapses the view, either animated or not.
+	 * 
+	 * @see #expand()
+	 * @see #toggle()
+	 */
+	@Override
+	public boolean collapse(boolean animated) {
+		return collapse(animated, false);
 	}
 
 	/**
@@ -654,8 +690,7 @@ public class LinearLayoutJalousie extends LinearLayout implements Jalousie {
 	 * @see #expand()
 	 * @see #toggle()
 	 */
-	@Override
-	public boolean collapse(boolean animated) {
+	private boolean collapse(boolean animated, final boolean fromTouch) {
 		Log.v(TAG, "[collapse] animated=" + animated);
 
 		if (!mIsExpandable) {
@@ -680,6 +715,13 @@ public class LinearLayoutJalousie extends LinearLayout implements Jalousie {
 			Log.v(TAG,
 					"requested animation on collapse is cancelled due to a negative animationEnabled flag. Collapse is done not animated");
 			animated = false;
+		}
+
+		for (JalousieListener listener : mJalousieListeners) {
+			if (listener.onBeforeActionStart(JalousieListener.ACTION_COLLAPSE,
+					fromTouch)) {
+				return false;
+			}
 		}
 
 		String propertyName;
@@ -750,20 +792,30 @@ public class LinearLayoutJalousie extends LinearLayout implements Jalousie {
 	 */
 	@Override
 	public boolean toggle() {
-		return toggle(true);
+		Log.v(TAG, "[toggle]");
+
+		return toggle(true, false);
 	}
 
 	@Override
 	public boolean toggle(boolean animated) {
+		Log.v(TAG, "[toggle] animated=" + animated);
+
+		return toggle(animated, false);
+	}
+
+	boolean toggle(boolean animated, boolean fromTouch) {
+		Log.v(TAG, "[toggle] animated=" + animated + ", fromTouch=" + fromTouch);
+
 		if (mIsAlwaysExpanded) {
 			return false;
 		}
 
 		if ((mIsAnimating && mAnimationType == ANIMATION_TYPE_EXPAND)
 				|| (!mIsAnimating && mIsExpanded)) {
-			return collapse(animated);
+			return collapse(animated, fromTouch);
 		} else {
-			return expand(animated);
+			return expand(animated, fromTouch);
 		}
 	}
 
@@ -794,6 +846,15 @@ public class LinearLayoutJalousie extends LinearLayout implements Jalousie {
 			if (!collapse(false)) {
 				mIsExpanded = false;
 			}
+		}
+	}
+
+	@Override
+	public void setIsAlwaysCollapsed(final boolean alwaysCollapsed) {
+		mIsAlwaysCollapsed = alwaysCollapsed;
+
+		if (mIsAlwaysCollapsed && mIsExpanded) {
+			collapse(false);
 		}
 	}
 

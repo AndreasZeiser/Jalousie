@@ -39,6 +39,19 @@ public interface JalousieListener {
 	public static final int ACTION_COLLAPSE = 2;
 
 	/**
+	 * This callback will be invoked right before
+	 * {@link #onActionStart(int, int)}. This gives you the chance to cancel the
+	 * action.
+	 * 
+	 * @param action
+	 *            either {@link #ACTION_EXPAND} or {@link #ACTION_COLLAPSE}
+	 * @param fromTouch
+	 *            determines whether this action is requested by the user or not
+	 * @return return true, if given action should be cancelled before it starts
+	 */
+	public boolean onBeforeActionStart(final int action, final boolean fromTouch);
+
+	/**
 	 * If the Jalousie view receives a command to expand or to collapse the
 	 * jalousie, this method will be invoked.
 	 * 
